@@ -4,24 +4,21 @@ import org.apache.metamodel.query.Query;
 import org.apache.metamodel.schema.ColumnType;
 import org.datacleaner.api.*;
 import org.datacleaner.components.categories.ReferenceDataCategory;
-import org.datacleaner.api.OutputDataStream;
-import org.datacleaner.components.dowjones.readers.*;
 import org.datacleaner.job.output.OutputDataStreamBuilder;
 import org.datacleaner.job.output.OutputDataStreams;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.xml.namespace.QName;
-import javax.xml.stream.XMLEventReader;
+import javax.xml.bind.JAXBException;
 import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.events.Attribute;
-import javax.xml.stream.events.StartElement;
-import javax.xml.stream.events.XMLEvent;
-import java.io.FileInputStream;
-import java.util.ArrayList;
-import java.util.List;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
+import javax.xml.transform.stream.StreamSource;
 
 import static org.datacleaner.components.dowjones.outputDataStreams.*;
+import static org.datacleaner.components.dowjones.readers.countryReader.countryReader;
+import static org.datacleaner.components.dowjones.readers.occupationReader.occupationReader;
+import static org.datacleaner.components.dowjones.readers.relationshipReader.relationshipReader;
 
 @Named("DowJones Parser")
 @Alias("DowJones")
@@ -31,7 +28,6 @@ import static org.datacleaner.components.dowjones.outputDataStreams.*;
 
 public class parseDowJones implements Transformer, HasOutputDataStreams {
 
-
     @Inject
     @Configured("inputURL")
     InputColumn<String> url;
@@ -40,11 +36,9 @@ public class parseDowJones implements Transformer, HasOutputDataStreams {
     @Provided
     OutputRowCollector outputRowCollector;
 
-
     private OutputRowCollector _countryRowCollector;
-
-    private List<InputColumn<?>> _outputDataStreamColumns;
-
+    private OutputRowCollector _occupationRowCollector;
+    private OutputRowCollector _relationshipRowCollector;
 
     @Override
     public OutputColumns getOutputColumns() {
@@ -54,31 +48,68 @@ public class parseDowJones implements Transformer, HasOutputDataStreams {
         return new OutputColumns(columnNames, columnTypes);
     }
 
-
     @Override
     public Object[] transform(InputRow inputRow) {
-
-        String dj_date = "";
-        String type = "";
-
         String fileURL = inputRow.getValue(url);
+        String filename = fileURL.substring(fileURL.indexOf("PFA2_") + 5);
+        String date = filename.substring(0, filename.indexOf("_"));
+        String type = filename.substring(filename.indexOf("_") + 1, filename.indexOf("."));
 
-        return new Object[]{fileURL, type};
+        XMLInputFactory xif = XMLInputFactory.newFactory();
+        StreamSource xml = new StreamSource(fileURL);
+//        XMLStreamReader xsr = null;
+//        XMLStreamReader xsr = xif.createXMLStreamReader(xml);
+
+        try {
+            XMLStreamReader xsr = xif.createXMLStreamReader(xml);
+//            xsr.nextTag();
+            while (xsr.hasNext()) {
+                int eventType = xsr.next();
+
+                switch (eventType) {
+
+                    case (XMLStreamReader.START_ELEMENT):
+                        String elementName = xsr.getLocalName();
+
+                        if (elementName.equals("CountryList")) {
+                            elementName = countryReader(xsr, _countryRowCollector);
+                        }
+                        if (elementName.equals("OccupationList")) {
+                            elementName = occupationReader(xsr, _occupationRowCollector);
+                        }
+                        if (elementName.equals("RelationshipList")) {
+                            elementName = relationshipReader(xsr, _relationshipRowCollector);
+                        }
+
+                        break;
+                }
+            }
+            xsr.close();
+        } catch (XMLStreamException e) {
+            e.printStackTrace();
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+        return new Object[]{date, type};
     }
 
     @Override
     public OutputDataStream[] getOutputDataStreams() {
         final OutputDataStreamBuilder countryStreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_COUNTRY);
 
-
         countryStreamBuilder.withColumn("Code", ColumnType.STRING);
         countryStreamBuilder.withColumn("Name", ColumnType.STRING);
         countryStreamBuilder.withColumn("IsTerritory", ColumnType.STRING);
         countryStreamBuilder.withColumn("ProfileURL", ColumnType.STRING);
 
-
+        final OutputDataStreamBuilder occupationStreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_OCCUPATION);
+        occupationStreamBuilder.withColumn("code", ColumnType.STRING);
+        occupationStreamBuilder.withColumn("name", ColumnType.STRING);
+        final OutputDataStreamBuilder relationshipStreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_RELATIONSHIPS);
+        relationshipStreamBuilder.withColumn("code", ColumnType.STRING);
+        relationshipStreamBuilder.withColumn("name", ColumnType.STRING);
         return new OutputDataStream[]{
-                countryStreamBuilder.toOutputDataStream()
+                occupationStreamBuilder.toOutputDataStream(), countryStreamBuilder.toOutputDataStream(), relationshipStreamBuilder.toOutputDataStream()
         };
 
     }
@@ -87,6 +118,15 @@ public class parseDowJones implements Transformer, HasOutputDataStreams {
     @Override
     public void initializeOutputDataStream(OutputDataStream outputDataStream, Query query, OutputRowCollector outputRowCollector) {
 
+        if (outputDataStream.getName().equals(OUTPUT_STREAM_OCCUPATION)) {
+            _occupationRowCollector = outputRowCollector;
+        }
+        if (outputDataStream.getName().equals(OUTPUT_STREAM_RELATIONSHIPS)) {
+            _relationshipRowCollector = outputRowCollector;
+        }
+        if (outputDataStream.getName().equals(OUTPUT_STREAM_COUNTRY)) {
+            _countryRowCollector = outputRowCollector;
+        }
     }
 }
 
