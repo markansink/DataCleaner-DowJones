@@ -7,9 +7,7 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.transform.stream.StreamSource;
 
-import static org.datacleaner.components.dowjones.readers.countryReader.countryReaderXML;
-import static org.datacleaner.components.dowjones.readers.occupationReader.occupationReaderXML;
-import static org.datacleaner.components.dowjones.readers.relationshipReader.relationshipReaderXML;
+import static org.datacleaner.components.dowjones.readers.personReader.personReaderXML;
 
 
 /**
@@ -38,15 +36,10 @@ public class parseXML {
 
                 case (XMLStreamReader.START_ELEMENT):
                     String elementName = xsr.getLocalName();
-                    if (elementName.equals("CountryList")) {
-                        elementName = countryReaderXML(xsr);
+                    if (elementName.equals("Person")) {
+                        elementName = personReaderXML(xsr);
                     }
-                    if (elementName.equals("OccupationList")) {
-                        elementName = occupationReaderXML(xsr);
-                    }
-                    if (elementName.equals("RelationshipList")) {
-                        elementName = relationshipReaderXML(xsr);
-                    }
+
 
                     break;
             }
