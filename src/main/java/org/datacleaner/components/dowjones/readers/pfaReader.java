@@ -1,7 +1,6 @@
 package org.datacleaner.components.dowjones.readers;
 
 import org.datacleaner.api.OutputRowCollector;
-import org.datacleaner.components.dowjones.xml.OccupationList;
 import org.datacleaner.components.dowjones.xml.PFA;
 
 import javax.xml.bind.JAXBContext;
@@ -38,28 +37,5 @@ public class pfaReader {
 
         return true;
 
-    }
-
-    public static boolean pfaReaderXML(XMLStreamReader xsr) throws JAXBException {
-
-        String date = "";
-        String type = "";
-        Object[] resultObj;
-
-
-        JAXBContext jc = JAXBContext.newInstance(PFA.class);
-        Unmarshaller unmarshallerCountry = jc.createUnmarshaller();
-        JAXBElement<PFA> je = unmarshallerCountry.unmarshal(xsr, PFA.class);
-
-
-        date = je.getValue().getDate();
-        type = je.getValue().getType();
-
-
-        resultObj = new Object[]{date, type};
-
-        System.out.println(date);
-
-        return true;
     }
 }

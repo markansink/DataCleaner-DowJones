@@ -13,7 +13,7 @@ import javax.xml.stream.XMLStreamReader;
  * Created by mansink on 31-05-16.
  */
 public class relationshipReader {
-    public static String relationshipReader(XMLStreamReader xsr, OutputRowCollector _relationshipRowCollector) throws JAXBException {
+    public static boolean relationshipReader(XMLStreamReader xsr, OutputRowCollector _relationshipRowCollector) throws JAXBException {
 
         String code = "";
         String name = "";
@@ -39,33 +39,8 @@ public class relationshipReader {
 
         }
 
-        return xsr.getLocalName();
+        return true;
     }
 
-    public static String relationshipReaderXML(XMLStreamReader xsr) throws JAXBException {
 
-        String code = "";
-        String name = "";
-
-        Object[] resultObj;
-
-        JAXBContext jc = JAXBContext.newInstance(RelationshipList.class);
-        Unmarshaller unmarshaller = jc.createUnmarshaller();
-        JAXBElement<RelationshipList> jx = unmarshaller.unmarshal(xsr, RelationshipList.class);
-
-
-        RelationshipList relationship = jx.getValue();
-
-        for (int i = 0; i < relationship.getRelationship().size(); i++) {
-
-            code = relationship.getRelationship().get(i).getCode();
-            name = relationship.getRelationship().get(i).getName();
-            System.out.println(name);
-
-            resultObj = new Object[]{code, name};
-
-
-        }
-        return xsr.getLocalName();
-    }
 }

@@ -17,9 +17,16 @@ import javax.xml.transform.stream.StreamSource;
 
 import static org.datacleaner.components.dowjones.outputDataStreams.*;
 import static org.datacleaner.components.dowjones.readers.countryReader.countryReader;
+import static org.datacleaner.components.dowjones.readers.dateTypeReader.dateTypeReader;
+import static org.datacleaner.components.dowjones.readers.description1Reader.description1Reader;
+import static org.datacleaner.components.dowjones.readers.description2Reader.description2Reader;
+import static org.datacleaner.components.dowjones.readers.description3Reader.description3Reader;
+import static org.datacleaner.components.dowjones.readers.nameTypeReader.nameTypeReader;
 import static org.datacleaner.components.dowjones.readers.occupationReader.occupationReader;
 import static org.datacleaner.components.dowjones.readers.relationshipReader.relationshipReader;
 import static org.datacleaner.components.dowjones.readers.personReader.personReader;
+import static org.datacleaner.components.dowjones.readers.roleTypeReader.roleTypeReader;
+import static org.datacleaner.components.dowjones.readers.sanctionsReferencesListReader.sanctionsReferencesListReader;
 
 @Named("DowJones Parser")
 @Alias("DowJones")
@@ -41,6 +48,13 @@ public class parseDowJones implements Transformer, HasOutputDataStreams {
     private OutputRowCollector _occupationRowCollector;
     private OutputRowCollector _relationshipRowCollector;
     private OutputRowCollector _personRowCollector;
+    private OutputRowCollector _sanctionsReferencesRowCollector;
+    private OutputRowCollector _description1RowCollector;
+    private OutputRowCollector _description2RowCollector;
+    private OutputRowCollector _description3RowCollector;
+    private OutputRowCollector _dateTypeRowCollector;
+    private OutputRowCollector _nameTypeRowCollector;
+    private OutputRowCollector _roleTypeRowCollector;
 
     @Override
     public OutputColumns getOutputColumns() {
@@ -59,12 +73,8 @@ public class parseDowJones implements Transformer, HasOutputDataStreams {
 
         XMLInputFactory xif = XMLInputFactory.newFactory();
         StreamSource xml = new StreamSource(fileURL);
-//        XMLStreamReader xsr = null;
-//        XMLStreamReader xsr = xif.createXMLStreamReader(xml);
-
         try {
             XMLStreamReader xsr = xif.createXMLStreamReader(xml);
-//            xsr.nextTag();
             while (xsr.hasNext()) {
                 int eventType = xsr.next();
 
@@ -74,25 +84,44 @@ public class parseDowJones implements Transformer, HasOutputDataStreams {
                         String elementName = xsr.getLocalName();
 
                         if (elementName.equals("CountryList")) {
-                            elementName = countryReader(xsr, _countryRowCollector);
+                            countryReader(xsr, _countryRowCollector);
                         }
                         if (elementName.equals("OccupationList")) {
-                            elementName = occupationReader(xsr, _occupationRowCollector);
+                            occupationReader(xsr, _occupationRowCollector);
                         }
                         if (elementName.equals("RelationshipList")) {
-                            elementName = relationshipReader(xsr, _relationshipRowCollector);
+                            relationshipReader(xsr, _relationshipRowCollector);
+                        }
+                        if (elementName.equals("SanctionsReferencesList")) {
+                            sanctionsReferencesListReader(xsr, _sanctionsReferencesRowCollector);
+                        }
+                        if (elementName.equals("Description1List")) {
+                            description1Reader(xsr, _description1RowCollector);
+                        }
+                        if (elementName.equals("Description2List")) {
+                            description2Reader(xsr, _description2RowCollector);
+                        }
+                        if (elementName.equals("Description3List")) {
+                            description3Reader(xsr, _description3RowCollector);
+                        }
+                        if (elementName.equals("DateTypeList")) {
+                            dateTypeReader(xsr, _dateTypeRowCollector);
+                        }
+                        if (elementName.equals("NameTypeList")) {
+                            nameTypeReader(xsr, _nameTypeRowCollector);
+                        }
+                        if (elementName.equals("RoleTypeList")) {
+                            roleTypeReader(xsr, _roleTypeRowCollector);
                         }
                         if (elementName.equals("Person")) {
-                            elementName = personReader(xsr, _personRowCollector);
+                            personReader(xsr, _personRowCollector);
                         }
 
                         break;
                 }
             }
             xsr.close();
-        } catch (XMLStreamException e) {
-            e.printStackTrace();
-        } catch (JAXBException e) {
+        } catch (XMLStreamException | JAXBException e) {
             e.printStackTrace();
         }
         return new Object[]{date, type};
@@ -115,6 +144,40 @@ public class parseDowJones implements Transformer, HasOutputDataStreams {
         relationshipStreamBuilder.withColumn("code", ColumnType.STRING);
         relationshipStreamBuilder.withColumn("name", ColumnType.STRING);
 
+        final OutputDataStreamBuilder referenceNameStreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_REFERENCENAME);
+        referenceNameStreamBuilder.withColumn("code", ColumnType.STRING);
+        referenceNameStreamBuilder.withColumn("name", ColumnType.STRING);
+        referenceNameStreamBuilder.withColumn("status", ColumnType.STRING);
+        referenceNameStreamBuilder.withColumn("description2id", ColumnType.STRING);
+
+        final OutputDataStreamBuilder description1StreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_DESCRIPTION1);
+        description1StreamBuilder.withColumn("Description1Id", ColumnType.STRING);
+        description1StreamBuilder.withColumn("Value", ColumnType.STRING);
+        description1StreamBuilder.withColumn("RecordType", ColumnType.STRING);
+
+        final OutputDataStreamBuilder description2StreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_DESCRIPTION2);
+        description2StreamBuilder.withColumn("Description2Id", ColumnType.STRING);
+        description2StreamBuilder.withColumn("Value", ColumnType.STRING);
+        description2StreamBuilder.withColumn("Description1Id", ColumnType.STRING);
+
+        final OutputDataStreamBuilder description3StreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_DESCRIPTION3);
+        description3StreamBuilder.withColumn("Description3Id", ColumnType.STRING);
+        description3StreamBuilder.withColumn("Value", ColumnType.STRING);
+        description3StreamBuilder.withColumn("Description2Id", ColumnType.STRING);
+
+        final OutputDataStreamBuilder dateTypeStreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_DATETYPELIST);
+        dateTypeStreamBuilder.withColumn("Id", ColumnType.STRING);
+        dateTypeStreamBuilder.withColumn("Name", ColumnType.STRING);
+        dateTypeStreamBuilder.withColumn("RecordType", ColumnType.STRING);
+
+        final OutputDataStreamBuilder nameTypeStreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_NAMETYPELIST);
+        nameTypeStreamBuilder.withColumn("NameTypeID", ColumnType.STRING);
+        nameTypeStreamBuilder.withColumn("NameType", ColumnType.STRING);
+        nameTypeStreamBuilder.withColumn("RecordType", ColumnType.STRING);
+
+        final OutputDataStreamBuilder roleTypeStreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_ROLETYPELIST);
+        roleTypeStreamBuilder.withColumn("Id", ColumnType.STRING);
+        roleTypeStreamBuilder.withColumn("Name", ColumnType.STRING);
 
         final OutputDataStreamBuilder personStreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_PERSON);
         personStreamBuilder.withColumn("ID", ColumnType.STRING);
@@ -135,13 +198,22 @@ public class parseDowJones implements Transformer, HasOutputDataStreams {
         personStreamBuilder.withColumn("Description1", ColumnType.STRING);
         personStreamBuilder.withColumn("Description2", ColumnType.STRING);
         personStreamBuilder.withColumn("Description3", ColumnType.STRING);
-
-
-
-
+        personStreamBuilder.withColumn("BirthDate", ColumnType.STRING);
+        personStreamBuilder.withColumn("DeceasedDate", ColumnType.STRING);
+        personStreamBuilder.withColumn("InactiveAsOfPEP", ColumnType.STRING);
+        personStreamBuilder.withColumn("CitizenshipCountry", ColumnType.STRING);
+        personStreamBuilder.withColumn("JurisdictionCountry", ColumnType.STRING);
+        personStreamBuilder.withColumn("ResidentCountry", ColumnType.STRING);
+        personStreamBuilder.withColumn("ReportedAllegationCountry", ColumnType.STRING);
 
         return new OutputDataStream[]{
-                occupationStreamBuilder.toOutputDataStream(), countryStreamBuilder.toOutputDataStream(), relationshipStreamBuilder.toOutputDataStream(), personStreamBuilder.toOutputDataStream()
+                occupationStreamBuilder.toOutputDataStream(), countryStreamBuilder.toOutputDataStream(),
+                relationshipStreamBuilder.toOutputDataStream(), referenceNameStreamBuilder.toOutputDataStream(),
+                personStreamBuilder.toOutputDataStream(), description1StreamBuilder.toOutputDataStream(),
+                description2StreamBuilder.toOutputDataStream(), description3StreamBuilder.toOutputDataStream(),
+                dateTypeStreamBuilder.toOutputDataStream(), nameTypeStreamBuilder.toOutputDataStream(),
+                roleTypeStreamBuilder.toOutputDataStream()
+
         };
 
     }
@@ -158,6 +230,27 @@ public class parseDowJones implements Transformer, HasOutputDataStreams {
         }
         if (outputDataStream.getName().equals(OUTPUT_STREAM_COUNTRY)) {
             _countryRowCollector = outputRowCollector;
+        }
+        if (outputDataStream.getName().equals(OUTPUT_STREAM_REFERENCENAME)) {
+            _sanctionsReferencesRowCollector = outputRowCollector;
+        }
+        if (outputDataStream.getName().equals(OUTPUT_STREAM_DESCRIPTION1)) {
+            _description1RowCollector = outputRowCollector;
+        }
+        if (outputDataStream.getName().equals(OUTPUT_STREAM_DESCRIPTION2)) {
+            _description2RowCollector = outputRowCollector;
+        }
+        if (outputDataStream.getName().equals(OUTPUT_STREAM_DESCRIPTION3)) {
+            _description3RowCollector = outputRowCollector;
+        }
+        if (outputDataStream.getName().equals(OUTPUT_STREAM_DATETYPELIST)) {
+            _dateTypeRowCollector = outputRowCollector;
+        }
+        if (outputDataStream.getName().equals(OUTPUT_STREAM_NAMETYPELIST)) {
+            _nameTypeRowCollector = outputRowCollector;
+        }
+        if (outputDataStream.getName().equals(OUTPUT_STREAM_ROLETYPELIST)) {
+            _roleTypeRowCollector = outputRowCollector;
         }
         if (outputDataStream.getName().equals(OUTPUT_STREAM_PERSON)) {
             _personRowCollector = outputRowCollector;
