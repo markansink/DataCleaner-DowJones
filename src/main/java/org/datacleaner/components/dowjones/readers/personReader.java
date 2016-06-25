@@ -17,7 +17,7 @@ public class personReader {
 
     public static boolean personReader(XMLStreamReader xsr, OutputRowCollector _personRowCollector,
                                        OutputRowCollector _personNameRowCollector, OutputRowCollector _personDescRowCollector,
-                                       OutputRowCollector _personRoleRowCollector, OutputRowCollector _personDateRowCollector) throws JAXBException {
+                                       OutputRowCollector _personRoleRowCollector, OutputRowCollector _personDateRowCollector, OutputRowCollector _personPlaceRowCollector) throws JAXBException {
 
         String person_id = "";
         String action = "";
@@ -51,7 +51,6 @@ public class personReader {
             deceased = person.getDeceased();
             profileNotes = person.getProfileNotes();
 
-            person.getNameDetails().getName().size();
             List<Name> nameDetails = person.getNameDetails().getName();
             for (int i = 0; i < nameDetails.size(); i++) {
                 String nameType = nameDetails.get(i).getNameType();
@@ -149,7 +148,7 @@ public class personReader {
                 String id = person_id + "-" + p;
                 birthPlace = Places.get(p).getName();
                 resultObj = new Object[]{id, person_id, birthPlace};
-                _personDateRowCollector.putValues(resultObj);
+                _personPlaceRowCollector.putValues(resultObj);
             }
 
 
