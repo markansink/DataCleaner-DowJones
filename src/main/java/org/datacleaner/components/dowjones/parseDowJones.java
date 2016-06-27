@@ -23,7 +23,7 @@ import static org.datacleaner.components.dowjones.readers.description2Reader.des
 import static org.datacleaner.components.dowjones.readers.description3Reader.description3Reader;
 import static org.datacleaner.components.dowjones.readers.nameTypeReader.nameTypeReader;
 import static org.datacleaner.components.dowjones.readers.occupationReader.occupationReader;
-import static org.datacleaner.components.dowjones.readers.personReader.personReader;
+import static org.datacleaner.components.dowjones.readers.personReaderClass.personReader;
 import static org.datacleaner.components.dowjones.readers.relationshipReader.relationshipReader;
 import static org.datacleaner.components.dowjones.readers.roleTypeReader.roleTypeReader;
 import static org.datacleaner.components.dowjones.readers.sanctionsReferencesListReader.sanctionsReferencesListReader;

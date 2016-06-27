@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by mansink on 31-05-16.
  */
-public class personReader {
+public class personReaderClass {
 
     public static boolean personReader(XMLStreamReader xsr, OutputRowCollector _personRowCollector,
                                        OutputRowCollector _personNameRowCollector, OutputRowCollector _personDescRowCollector,
@@ -64,7 +64,7 @@ public class personReader {
                     String titleHonorific = "";
                     String singleStringName = "";
                     String originalScriptName = "";
-                    String id = person_id + "-" + i + "-" + in;
+                    String id = i + "-" + in;
                     for (int fn = 0; fn < names.get(in).getFirstName().size(); fn++) {
                         firstName = names.get(in).getFirstName().get(fn);
                     }
@@ -100,18 +100,20 @@ public class personReader {
                     _personNameRowCollector.putValues(resultObj);
                 }
             }
+
             List<Description> Desc = person.getDescriptions().getDescription();
             for (int d = 0; d > Desc.size(); d++) {
                 String description1 = "";
                 String description2 = "";
                 String description3 = "";
-                String id = person_id + "-" + d;
+                String id = String.valueOf(d);
                 description1 = Desc.get(d).getDescription1();
                 description2 = Desc.get(d).getDescription2();
                 description3 = Desc.get(d).getDescription3();
                 resultObj = new Object[]{id, person_id, description1, description2, description3};
                 _personDescRowCollector.putValues(resultObj);
             }
+
             List<Roles> Roles = person.getRoleDetail().getRoles();
             for (int r = 0; r > Roles.size(); r++) {
                 String roleType = "";
@@ -122,7 +124,7 @@ public class personReader {
                     String occCat = "";
                     String sinceDate = "";
                     String toDate = "";
-                    String id = person_id + "-" + r + "-" + o;
+                    String id = r + "-" + o;
                     occTitle = occTitles.get(o).getValue();
                     occCat = occTitles.get(o).getOccCat();
                     sinceDate = occTitles.get(o).getSinceYear() + "-" + occTitles.get(o).getSinceMonth() + "-" + occTitles.get(o).getSinceDay();
@@ -131,21 +133,23 @@ public class personReader {
                     _personRoleRowCollector.putValues(resultObj);
                 }
             }
+
             List<Date> Dates = person.getDateDetails().getDate();
-            for (int d = 0; d > Dates.size(); d++) {
+            for (int dt = 0; dt > Dates.size(); dt++) {
                 String dateType = "";
                 String persondate = "";
-                String id = person_id + "-" + d;
-                dateType = Dates.get(d).getDateType();
-                date = Dates.get(d).getDateValue().toString();
+                String id = String.valueOf(dt);
+                dateType = Dates.get(dt).getDateType();
+                date = Dates.get(dt).getDateValue().toString();
                 resultObj = new Object[]{id, person_id, dateType, persondate};
                 _personDateRowCollector.putValues(resultObj);
             }
+
             List<Place> Places = person.getBirthPlace().getPlace();
             for (int p = 0; p > Places.size(); p++) {
                 String birthPlace = "";
 
-                String id = person_id + "-" + p;
+                String id = String.valueOf(p);
                 birthPlace = Places.get(p).getName();
                 resultObj = new Object[]{id, person_id, birthPlace};
                 _personPlaceRowCollector.putValues(resultObj);
