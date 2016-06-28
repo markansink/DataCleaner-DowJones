@@ -21,6 +21,7 @@ public class outputDataStreams {
     public static final String OUTPUT_STREAM_PERSONDATE = "Person Date Detail rows";
     public static final String OUTPUT_STREAM_PERSONPLACE = "Person Birthplace rows";
     public static final String OUTPUT_STREAM_PERSONSANCTION = "Person Sanction Reference rows";
+    public static final String OUTPUT_STREAM_PERSONADDRESS = "Person Address rows";
     public static final String OUTPUT_STREAM_PERSONCOUNTRY = "Person Country rows";
     public static final String OUTPUT_STREAM_PERSONID = "Person ID Number Types rows";
     public static final String OUTPUT_STREAM_PERSONSOURCEDESCRIPTION = "Person Source Description rows";
