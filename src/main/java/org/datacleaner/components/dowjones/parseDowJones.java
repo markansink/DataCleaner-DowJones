@@ -63,6 +63,9 @@ public class parseDowJones implements Transformer, HasOutputDataStreams {
     private OutputRowCollector _personSanctionRowCollector;
     private OutputRowCollector _personAddressRowCollector;
     private OutputRowCollector _personCountryRowCollector;
+    private OutputRowCollector _personIDRowCollector;
+    private OutputRowCollector _personSourceRowCollector;
+    private OutputRowCollector _personImageRowCollector;
 
     @Override
     public OutputColumns getOutputColumns() {
@@ -124,7 +127,8 @@ public class parseDowJones implements Transformer, HasOutputDataStreams {
                         if (elementName.equals("Person")) {
                             personReader(xsr, _personRowCollector, _personNameRowCollector,
                                     _personDescRowCollector, _personRoleRowCollector, _personDateRowCollector,
-                                    _personPlaceRowCollector, _personSanctionRowCollector, _personAddressRowCollector, _personCountryRowCollector);
+                                    _personPlaceRowCollector, _personSanctionRowCollector, _personAddressRowCollector,
+                                    _personCountryRowCollector, _personIDRowCollector, _personSourceRowCollector, _personImageRowCollector);
                         }
 
                         break;
@@ -259,6 +263,24 @@ public class parseDowJones implements Transformer, HasOutputDataStreams {
         personCountryStreamBuilder.withColumn("CountryType", ColumnType.STRING);
         personCountryStreamBuilder.withColumn("Country", ColumnType.STRING);
 
+        final OutputDataStreamBuilder personIdStreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_PERSONID);
+        personIdStreamBuilder.withColumn("ID", ColumnType.STRING);
+        personIdStreamBuilder.withColumn("PersonID", ColumnType.STRING);
+        personIdStreamBuilder.withColumn("IDType", ColumnType.STRING);
+        personIdStreamBuilder.withColumn("IDValue", ColumnType.STRING);
+        personIdStreamBuilder.withColumn("IDNotes", ColumnType.STRING);
+
+        final OutputDataStreamBuilder personSourceStreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_PERSONSOURCEDESCRIPTION);
+        personSourceStreamBuilder.withColumn("ID", ColumnType.STRING);
+        personSourceStreamBuilder.withColumn("PersonID", ColumnType.STRING);
+        personSourceStreamBuilder.withColumn("Source", ColumnType.STRING);
+
+        final OutputDataStreamBuilder personImageStreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_PERSONIMAGES);
+        personImageStreamBuilder.withColumn("ID", ColumnType.STRING);
+        personImageStreamBuilder.withColumn("PersonID", ColumnType.STRING);
+        personImageStreamBuilder.withColumn("URL", ColumnType.STRING);
+
+
         return new OutputDataStream[]{
                 occupationStreamBuilder.toOutputDataStream(), countryStreamBuilder.toOutputDataStream(),
                 relationshipStreamBuilder.toOutputDataStream(), referenceNameStreamBuilder.toOutputDataStream(),
@@ -268,7 +290,9 @@ public class parseDowJones implements Transformer, HasOutputDataStreams {
                 personStreamBuilder.toOutputDataStream(), personNameStreamBuilder.toOutputDataStream(),
                 personDescStreamBuilder.toOutputDataStream(), personRoleStreamBuilder.toOutputDataStream(),
                 personDateStreamBuilder.toOutputDataStream(), personPlaceStreamBuilder.toOutputDataStream(),
-                personSanctionStreamBuilder.toOutputDataStream(), personAddressStreamBuilder.toOutputDataStream()
+                personSanctionStreamBuilder.toOutputDataStream(), personAddressStreamBuilder.toOutputDataStream(),
+                personIdStreamBuilder.toOutputDataStream(), personImageStreamBuilder.toOutputDataStream(),
+                personSourceStreamBuilder.toOutputDataStream()
         };
 
     }
@@ -333,6 +357,15 @@ public class parseDowJones implements Transformer, HasOutputDataStreams {
         }
         if (outputDataStream.getName().equals(OUTPUT_STREAM_PERSONCOUNTRY)) {
             _personCountryRowCollector = outputRowCollector;
+        }
+        if (outputDataStream.getName().equals(OUTPUT_STREAM_PERSONID)) {
+            _personIDRowCollector = outputRowCollector;
+        }
+        if (outputDataStream.getName().equals(OUTPUT_STREAM_PERSONSOURCEDESCRIPTION)) {
+            _personSourceRowCollector = outputRowCollector;
+        }
+        if (outputDataStream.getName().equals(OUTPUT_STREAM_PERSONIMAGES)) {
+            _personImageRowCollector = outputRowCollector;
         }
     }
 }
