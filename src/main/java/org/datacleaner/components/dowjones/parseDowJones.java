@@ -137,6 +137,7 @@ public class parseDowJones implements Transformer, HasOutputDataStreams {
             xsr.close();
         } catch (XMLStreamException | JAXBException e) {
             e.printStackTrace();
+            e.getMessage();
         }
         return new Object[]{date, type};
     }
@@ -292,7 +293,7 @@ public class parseDowJones implements Transformer, HasOutputDataStreams {
                 personDateStreamBuilder.toOutputDataStream(), personPlaceStreamBuilder.toOutputDataStream(),
                 personSanctionStreamBuilder.toOutputDataStream(), personAddressStreamBuilder.toOutputDataStream(),
                 personIdStreamBuilder.toOutputDataStream(), personImageStreamBuilder.toOutputDataStream(),
-                personSourceStreamBuilder.toOutputDataStream()
+                personSourceStreamBuilder.toOutputDataStream(), personCountryStreamBuilder.toOutputDataStream()
         };
 
     }

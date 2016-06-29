@@ -218,6 +218,7 @@ public class personReader {
                     _personCountryRowCollector.putValues(countryObj);
                 }
             }
+
             List<ID> idNumber = person.getIDNumberTypes().getID();
             for (int i = 0; i < idNumber.size(); i++) {
                 String idType = "";
@@ -259,6 +260,7 @@ public class personReader {
             }
 
         } catch (Exception e) {
+
             e.getMessage();
             e.getCause();
             e.getStackTrace();
