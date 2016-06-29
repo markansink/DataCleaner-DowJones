@@ -62,208 +62,230 @@ public class personReader {
             personObj = new Object[]{person_id, action, date, gender, activeStatus, deceased, profileNotes};
             _personRowCollector.putValues(personObj);
 
-            List<Name> nameDetails = person.getNameDetails().getName();
-            for (int i = 0; i < nameDetails.size(); i++) {
-                String nameType = nameDetails.get(i).getNameType();
-                List<NameValue> names = nameDetails.get(i).getNameValue();
-                for (int in = 0; in < names.size(); in++) {
-                    String firstName = "";
-                    String middleName = "";
-                    String surname = "";
-                    String maidenName = "";
-                    String suffix = "";
-                    String titleHonorific = "";
-                    String singleStringName = "";
-                    String originalScriptName = "";
-                    String id = i + "-" + in;
-                    for (int fn = 0; fn < names.get(in).getFirstName().size(); fn++) {
-                        firstName = names.get(in).getFirstName().get(fn);
+            NameDetails nameDetails = person.getNameDetails();
+            if (nameDetails != null) {
+                for (int i = 0; i < nameDetails.getName().size(); i++) {
+                    Name name = nameDetails.getName().get(i);
+                    String nameType = name.getNameType();
+                    List<NameValue> names = name.getNameValue();
+                    for (int in = 0; in < names.size(); in++) {
+                        String firstName = "";
+                        String middleName = "";
+                        String surname = "";
+                        String maidenName = "";
+                        String suffix = "";
+                        String titleHonorific = "";
+                        String singleStringName = "";
+                        String originalScriptName = "";
+                        String id = i + "-" + in;
+                        for (int fn = 0; fn < names.get(in).getFirstName().size(); fn++) {
+                            firstName = names.get(in).getFirstName().get(fn);
+                        }
+                        for (int fn = 0; fn < names.get(in).getMiddleName().size(); fn++) {
+                            middleName = names.get(in).getMiddleName().get(fn);
+                        }
+                        for (int fn = 0; fn < names.get(in).getSurname().size(); fn++) {
+                            surname = names.get(in).getSurname().get(fn);
+                        }
+                        for (int fn = 0; fn < names.get(in).getMaidenName().size(); fn++) {
+                            maidenName = names.get(in).getMaidenName().get(fn);
+                        }
+                        for (int fn = 0; fn < names.get(in).getSuffix().size(); fn++) {
+                            suffix = names.get(in).getSuffix().get(fn);
+                        }
+                        for (int fn = 0; fn < names.get(in).getTitleHonorific().size(); fn++) {
+                            titleHonorific = names.get(in).getTitleHonorific().get(fn);
+                        }
+                        for (int fn = 0; fn < names.get(in).getSingleStringName().size(); fn++) {
+                            if (singleStringName.equals("")) {
+                                singleStringName = names.get(in).getSingleStringName().get(fn);
+                            } else
+                                singleStringName = singleStringName + " - " + names.get(in).getSingleStringName().get(fn);
+                        }
+                        for (int fn = 0; fn < names.get(in).getOriginalScriptName().size(); fn++) {
+                            if (originalScriptName.equals("")) {
+                                originalScriptName = names.get(in).getOriginalScriptName().get(fn);
+                            } else
+                                originalScriptName = originalScriptName + " - " + names.get(in).getOriginalScriptName().get(fn);
+                        }
+                        nameObj = new Object[]{id, person_id, nameType,
+                                firstName, middleName, surname, maidenName, suffix, titleHonorific, singleStringName, originalScriptName};
+                        _personNameRowCollector.putValues(nameObj);
                     }
-                    for (int fn = 0; fn < names.get(in).getMiddleName().size(); fn++) {
-                        middleName = names.get(in).getMiddleName().get(fn);
-                    }
-                    for (int fn = 0; fn < names.get(in).getSurname().size(); fn++) {
-                        surname = names.get(in).getSurname().get(fn);
-                    }
-                    for (int fn = 0; fn < names.get(in).getMaidenName().size(); fn++) {
-                        maidenName = names.get(in).getMaidenName().get(fn);
-                    }
-                    for (int fn = 0; fn < names.get(in).getSuffix().size(); fn++) {
-                        suffix = names.get(in).getSuffix().get(fn);
-                    }
-                    for (int fn = 0; fn < names.get(in).getTitleHonorific().size(); fn++) {
-                        titleHonorific = names.get(in).getTitleHonorific().get(fn);
-                    }
-                    for (int fn = 0; fn < names.get(in).getSingleStringName().size(); fn++) {
-                        if (singleStringName.equals("")) {
-                            singleStringName = names.get(in).getSingleStringName().get(fn);
-                        } else
-                            originalScriptName = originalScriptName + " - " + names.get(in).getOriginalScriptName().get(fn);
-                    }
-                    for (int fn = 0; fn < names.get(in).getOriginalScriptName().size(); fn++) {
-                        if (originalScriptName.equals("")) {
-                            originalScriptName = names.get(in).getOriginalScriptName().get(fn);
-                        } else
-                            originalScriptName = originalScriptName + " - " + names.get(in).getOriginalScriptName().get(fn);
-                    }
-                    nameObj = new Object[]{id, person_id, nameType,
-                            firstName, middleName, surname, maidenName, suffix, titleHonorific, singleStringName, originalScriptName};
-                    _personNameRowCollector.putValues(nameObj);
                 }
             }
 
-            List<Description> Desc = person.getDescriptions().getDescription();
-            for (int d = 0; d < Desc.size(); d++) {
-                String description1 = "";
-                String description2 = "";
-                String description3 = "";
-                String id = String.valueOf(d);
-                description1 = Desc.get(d).getDescription1();
-                description2 = Desc.get(d).getDescription2();
-                description3 = Desc.get(d).getDescription3();
-                descObj = new Object[]{id, person_id, description1, description2, description3};
-                _personDescRowCollector.putValues(descObj);
+            Descriptions descriptions = person.getDescriptions();
+            if (descriptions != null) {
+                for (int d = 0; d < descriptions.getDescription().size(); d++) {
+                    Description Desc = descriptions.getDescription().get(d);
+                    String description1 = "";
+                    String description2 = "";
+                    String description3 = "";
+                    String id = String.valueOf(d);
+                    description1 = Desc.getDescription1();
+                    description2 = Desc.getDescription2();
+                    description3 = Desc.getDescription3();
+                    descObj = new Object[]{id, person_id, description1, description2, description3};
+                    _personDescRowCollector.putValues(descObj);
+                }
             }
 
-            List<Roles> Roles = person.getRoleDetail().getRoles();
-            for (int r = 0; r < Roles.size(); r++) {
-                String roleType = "";
-                roleType = Roles.get(r).getRoleType();
-                List<OccTitle> occTitles = Roles.get(r).getOccTitle();
-                for (int o = 0; o < occTitles.size(); o++) {
-                    String occTitle = "";
-                    String occCat = "";
+            RoleDetail roleDetail = person.getRoleDetail();
+            if (roleDetail != null) {
+                for (int r = 0; r < roleDetail.getRoles().size(); r++) {
+                    Roles roles = roleDetail.getRoles().get(r);
+                    String roleType = "";
+                    roleType = roles.getRoleType();
+
+                    for (int o = 0; o < roles.getOccTitle().size(); o++) {
+                        OccTitle ot = roles.getOccTitle().get(o);
+                        String occTitle = "";
+                        String occCat = "";
+                        String sinceDate = "";
+                        String toDate = "";
+                        String id = r + "-" + o;
+                        occTitle = ot.getValue();
+                        occCat = ot.getOccCat();
+
+
+                        sinceDate = constructDate(ot.getSinceYear(), ot.getSinceMonth(), ot.getSinceDay());
+                        toDate = constructDate(ot.getToYear(), ot.getToMonth(), ot.getToDay());
+                        occTitleObj = new Object[]{id, person_id, roleType, occTitle, occCat, sinceDate, toDate};
+                        _personRoleRowCollector.putValues(occTitleObj);
+                    }
+                }
+            }
+
+            DateDetails dateDetails = person.getDateDetails();
+            if (dateDetails != null) {
+                for (int dt = 0; dt < dateDetails.getDate().size(); dt++) {
+                    Date Date = dateDetails.getDate().get(dt);
+                    String dateType = "";
+                    String persondate = "";
+                    dateType = Date.getDateType();
+                    for (int pd = 0; pd < Date.getDateValue().size(); pd++) {
+                        DateValue dateValue = Date.getDateValue().get(pd);
+                        String id = dt + "-" + pd;
+                        persondate = constructDate(dateValue.getYear(), dateValue.getMonth(), dateValue.getDay());
+                        dateObj = new Object[]{id, person_id, dateType, persondate};
+                        _personDateRowCollector.putValues(dateObj);
+                    }
+                }
+            }
+
+            BirthPlace bp = person.getBirthPlace();
+            if (bp != null) {
+                for (int p = 0; p < bp.getPlace().size(); p++) {
+                    Place place = bp.getPlace().get(p);
+                    String birthPlace = "";
+                    String id = String.valueOf(p);
+                    birthPlace = place.getName();
+                    placeObj = new Object[]{id, person_id, birthPlace};
+                    _personPlaceRowCollector.putValues(placeObj);
+                }
+            }
+
+            SanctionsReferences sanctionReference = person.getSanctionsReferences();
+            if (sanctionReference != null) {
+                for (int sr = 0; sr < sanctionReference.getReference().size(); sr++) {
+                    Reference ref = sanctionReference.getReference().get(sr);
+                    String id = String.valueOf(sr);
+                    String reference = "";
                     String sinceDate = "";
                     String toDate = "";
-                    String id = r + "-" + o;
-                    occTitle = occTitles.get(o).getValue();
-                    occCat = occTitles.get(o).getOccCat();
-
-
-                    sinceDate = constructDate(occTitles.get(o).getSinceYear(), occTitles.get(o).getSinceMonth(), occTitles.get(o).getSinceDay());
-                    toDate = constructDate(occTitles.get(o).getToYear(), occTitles.get(o).getToMonth(), occTitles.get(o).getToDay());
-                    occTitleObj = new Object[]{id, person_id, roleType, occTitle, occCat, sinceDate, toDate};
-                    _personRoleRowCollector.putValues(occTitleObj);
+                    reference = ref.getValue();
+                    sinceDate = constructDate(ref.getSinceYear(), ref.getSinceMonth(), ref.getSinceDay());
+                    toDate = constructDate(ref.getToYear(), ref.getToMonth(), ref.getToDay());
+                    sanctionObj = new Object[]{id, person_id, reference, sinceDate, toDate};
+                    _personSanctionRowCollector.putValues(sanctionObj);
                 }
             }
 
-            List<Date> Dates = person.getDateDetails().getDate();
-            for (int dt = 0; dt < Dates.size(); dt++) {
-                String dateType = "";
-                String persondate = "";
-
-                dateType = Dates.get(dt).getDateType();
-                List<DateValue> dateValue = Dates.get(dt).getDateValue();
-                for (int pd = 0; pd < dateValue.size(); pd++) {
-                    String id = dt + "-" + pd;
-
-                    persondate = constructDate(dateValue.get(pd).getYear(), dateValue.get(pd).getMonth(), dateValue.get(pd).getDay());
-                    dateObj = new Object[]{id, person_id, dateType, persondate};
-                    _personDateRowCollector.putValues(dateObj);
-                }
-            }
-
-            List<Place> Places = person.getBirthPlace().getPlace();
-            for (int p = 0; p < Places.size(); p++) {
-                String birthPlace = "";
-
-                String id = String.valueOf(p);
-                birthPlace = Places.get(p).getName();
-                placeObj = new Object[]{id, person_id, birthPlace};
-                _personPlaceRowCollector.putValues(placeObj);
-            }
-
-            List<Reference> References = person.getSanctionsReferences().getReference();
-            for (int sr = 0; sr < References.size(); sr++) {
-                String id = String.valueOf(sr);
-                String reference = "";
-                String sinceDate = "";
-                String toDate = "";
-
-                reference = References.get(sr).getValue();
-
-                sinceDate = constructDate(References.get(sr).getSinceYear(), References.get(sr).getSinceMonth(), References.get(sr).getSinceDay());
-                toDate = constructDate(References.get(sr).getToYear(), References.get(sr).getToMonth(), References.get(sr).getToDay());
-                sanctionObj = new Object[]{id, person_id, reference, sinceDate, toDate};
-                _personSanctionRowCollector.putValues(sanctionObj);
-            }
-
-            List<Address> Address = person.getAddress();
-            for (int a = 0; a < Address.size(); a++) {
+            for (int a = 0; a < person.getAddress().size(); a++) {
+                Address address = person.getAddress().get(a);
                 String id = String.valueOf(a);
                 String addressLine = "";
                 String city = "";
                 String country = "";
                 String url = "";
 
-                addressLine = Address.get(a).getAddressLine();
-                city = Address.get(a).getAddressCity();
-                country = Address.get(a).getAddressCountry();
-                url = Address.get(a).getURL();
+                addressLine = address.getAddressLine();
+                city = address.getAddressCity();
+                country = address.getAddressCountry();
+                url = address.getURL();
                 addressObj = new Object[]{id, person_id, addressLine, city, country, url};
                 _personAddressRowCollector.putValues(addressObj);
             }
+            CountryDetails countryDetails = person.getCountryDetails();
+            if (countryDetails != null) {
+                for (int c = 0; c < person.getCountryDetails().getCountry().size(); c++) {
+                    Country Country = person.getCountryDetails().getCountry().get(c);
+                    String countryType = "";
+                    countryType = Country.getCountryType();
 
-            List<Country> Country = person.getCountryDetails().getCountry();
-            for (int c = 0; c < Country.size(); c++) {
-                String countryType = "";
-                countryType = Country.get(c).getCountryType();
 
-                List<CountryValue> countryValue = Country.get(c).getCountryValue();
-                for (int cv = 0; cv < countryValue.size(); cv++) {
-                    String id = c + "-" + cv;
-                    String country = "";
-                    country = countryValue.get(cv).getCode();
-                    countryObj = new Object[]{id, person_id, countryType, country};
-                    _personCountryRowCollector.putValues(countryObj);
+                    for (int cv = 0; cv < Country.getCountryValue().size(); cv++) {
+                        CountryValue countryValue = Country.getCountryValue().get(cv);
+                        String id = c + "-" + cv;
+                        String country = "";
+                        country = countryValue.getCode();
+                        countryObj = new Object[]{id, person_id, countryType, country};
+                        _personCountryRowCollector.putValues(countryObj);
+                    }
                 }
             }
 
-            List<ID> idNumber = person.getIDNumberTypes().getID();
-            for (int i = 0; i < idNumber.size(); i++) {
-                String idType = "";
-                idType = idNumber.get(i).getIDType();
+            IDNumberTypes idNumberTypes = person.getIDNumberTypes();
+            if (idNumberTypes != null) {
+                for (int i = 0; i < idNumberTypes.getID().size(); i++) {
+                    ID idNumber = idNumberTypes.getID().get(i);
+                    String idType = "";
+                    idType = idNumber.getIDType();
+                    for (int iv = 0; iv < idNumber.getIDValue().size(); iv++) {
+                        IDValue idValue = idNumber.getIDValue().get(iv);
+                        String id = i + "-" + iv;
+                        String value = "";
+                        String idNotes = "";
 
-
-                List<IDValue> idValue = idNumber.get(i).getIDValue();
-                for (int iv = 0; iv < idValue.size(); iv++) {
-                    String id = i + "-" + iv;
-                    String value = "";
-                    String idNotes = "";
-
-                    value = idValue.get(iv).getValue();
-                    idNotes = idValue.get(iv).getIDnotes();
-                    idObj = new Object[]{id, person_id, idType, value, idNotes};
-                    _personIDRowCollector.putValues(idObj);
+                        value = idValue.getValue();
+                        idNotes = idValue.getIDnotes();
+                        idObj = new Object[]{id, person_id, idType, value, idNotes};
+                        _personIDRowCollector.putValues(idObj);
+                    }
                 }
             }
-            List<Source> source = person.getSourceDescription().getSource();
-            for (int i = 0; i < source.size(); i++) {
-                String id = String.valueOf(i);
-                String sourceName = "";
-                sourceName = source.get(i).getName();
 
-                sourceObj = new Object[]{id, person_id, sourceName};
-                _personSourceRowCollector.putValues(sourceObj);
+            SourceDescription sourceDescription = person.getSourceDescription();
+            if (sourceDescription != null) {
+                for (int i = 0; i < sourceDescription.getSource().size(); i++) {
+                    Source source = sourceDescription.getSource().get(i);
+                    String id = String.valueOf(i);
+                    String sourceName = "";
+                    sourceName = source.getName();
 
+                    sourceObj = new Object[]{id, person_id, sourceName};
+                    _personSourceRowCollector.putValues(sourceObj);
+
+                }
             }
+            Images images = person.getImages();
+            if (images != null) {
+                for (int i = 0; i < images.getImage().size(); i++) {
+                    Image image = images.getImage().get(i);
+                    String id = String.valueOf(i);
+                    String url = "";
+                    url = image.getURL();
 
-            List<Image> image = person.getImages().getImage();
-            for (int i = 0; i < image.size(); i++) {
-                String id = String.valueOf(i);
-                String url = "";
-                url = image.get(i).getURL();
+                    imageObj = new Object[]{id, person_id, url};
+                    _personImageRowCollector.putValues(imageObj);
 
-                imageObj = new Object[]{id, person_id, url};
-                _personImageRowCollector.putValues(imageObj);
-
+                }
             }
 
         } catch (Exception e) {
+            e.printStackTrace();
 
-            e.getMessage();
-            e.getCause();
-            e.getStackTrace();
         }
         return true;
     }
