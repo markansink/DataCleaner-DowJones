@@ -38,7 +38,6 @@ public class occupationReader {
         }
 
         return true;
-//        return xsr.getLocalName();
 
     }
 

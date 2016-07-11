@@ -14,6 +14,9 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.transform.stream.StreamSource;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.Objects;
 
 import static org.datacleaner.components.dowjones.outputDataStreams.*;
 import static org.datacleaner.components.dowjones.readers.countryReader.countryReader;
@@ -81,63 +84,98 @@ public class parseDowJones implements Transformer, HasOutputDataStreams {
         String filename = fileURL.substring(fileURL.indexOf("PFA2_") + 5);
         String date = filename.substring(0, filename.indexOf("_"));
         String type = filename.substring(filename.indexOf("_") + 1, filename.indexOf("."));
-
+        String elementNameNew = "";
+        String elementName = "";
         XMLInputFactory xif = XMLInputFactory.newFactory();
         StreamSource xml = new StreamSource(fileURL);
-        try {
-            XMLStreamReader xsr = xif.createXMLStreamReader(xml);
-            while (xsr.hasNext()) {
-                int eventType = xsr.next();
 
+        try {
+            XMLStreamReader xsr = xif
+                    .createXMLStreamReader(new FileReader(fileURL));
+
+            // start with the first element:
+            xsr.nextTag();
+
+            while (xsr.hasNext()) {
+
+
+                // get new elemenName only works on start elements, so we need a try catch
+                try {
+                    elementNameNew = xsr.getLocalName();
+                    // check elementname with previous elementname.
+                    // Sometimes (delta file) we need to tell the parser to go to the next element and sometimes it is already at the next element.
+
+                    if (elementNameNew.equals(elementName) && !Objects.equals(elementNameNew, "Person")) {
+                        xsr.nextTag();
+                    }
+                } catch (Exception e) {
+                    xsr.nextTag();
+                }
+
+
+                int eventType = xsr.getEventType();
                 switch (eventType) {
 
                     case (XMLStreamReader.START_ELEMENT):
-                        String elementName = xsr.getLocalName();
+
+
+                        elementName = xsr.getLocalName();
 
                         if (elementName.equals("CountryList")) {
                             countryReader(xsr, _countryRowCollector);
+
                         }
                         if (elementName.equals("OccupationList")) {
                             occupationReader(xsr, _occupationRowCollector);
+
                         }
                         if (elementName.equals("RelationshipList")) {
                             relationshipReader(xsr, _relationshipRowCollector);
+
                         }
                         if (elementName.equals("SanctionsReferencesList")) {
                             sanctionsReferencesListReader(xsr, _sanctionsReferencesRowCollector);
+
                         }
                         if (elementName.equals("Description1List")) {
                             description1Reader(xsr, _description1RowCollector);
+
                         }
                         if (elementName.equals("Description2List")) {
                             description2Reader(xsr, _description2RowCollector);
+
                         }
                         if (elementName.equals("Description3List")) {
                             description3Reader(xsr, _description3RowCollector);
+
                         }
                         if (elementName.equals("DateTypeList")) {
                             dateTypeReader(xsr, _dateTypeRowCollector);
+
                         }
                         if (elementName.equals("NameTypeList")) {
                             nameTypeReader(xsr, _nameTypeRowCollector);
+
                         }
                         if (elementName.equals("RoleTypeList")) {
                             roleTypeReader(xsr, _roleTypeRowCollector);
+
                         }
                         if (elementName.equals("Person")) {
                             personReader(xsr, _personRowCollector, _personNameRowCollector,
                                     _personDescRowCollector, _personRoleRowCollector, _personDateRowCollector,
                                     _personPlaceRowCollector, _personSanctionRowCollector, _personAddressRowCollector,
                                     _personCountryRowCollector, _personIDRowCollector, _personSourceRowCollector, _personImageRowCollector);
-                        }
 
+                        }
                         break;
                 }
+
             }
             xsr.close();
-        } catch (XMLStreamException | JAXBException e) {
+        } catch (XMLStreamException | JAXBException | FileNotFoundException e) {
             e.printStackTrace();
-            e.getMessage();
+
         }
         return new Object[]{date, type};
     }
