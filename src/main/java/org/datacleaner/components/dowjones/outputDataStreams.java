@@ -4,6 +4,7 @@ package org.datacleaner.components.dowjones;
  * Created by mansink on 31-05-16.
  */
 public class outputDataStreams {
+    //Reference
     public static final String OUTPUT_STREAM_COUNTRY = "Country rows";
     public static final String OUTPUT_STREAM_OCCUPATION = "Occupation rows";
     public static final String OUTPUT_STREAM_RELATIONSHIPS = "Relationship rows";
@@ -14,6 +15,7 @@ public class outputDataStreams {
     public static final String OUTPUT_STREAM_DATETYPELIST = "DateTypeList rows";
     public static final String OUTPUT_STREAM_NAMETYPELIST = "NameTypeList rows";
     public static final String OUTPUT_STREAM_ROLETYPELIST = "RoleTypeList rows";
+    // Person
     public static final String OUTPUT_STREAM_PERSON = "Person rows";
     public static final String OUTPUT_STREAM_PERSONNAME = "Person Name rows";
     public static final String OUTPUT_STREAM_PERSONDESC = "Person Description rows";
@@ -26,4 +28,6 @@ public class outputDataStreams {
     public static final String OUTPUT_STREAM_PERSONID = "Person ID Number Types rows";
     public static final String OUTPUT_STREAM_PERSONSOURCEDESCRIPTION = "Person Source Description rows";
     public static final String OUTPUT_STREAM_PERSONIMAGES = "Person Images rows";
+    // Entity
+    public static final String OUTPUT_STREAM_ENTITY = "Entity rows";
 }

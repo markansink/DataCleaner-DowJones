@@ -149,8 +149,8 @@ public class personReader {
                         occCat = ot.getOccCat();
 
 
-                        sinceDate = constructDate(ot.getSinceYear(), ot.getSinceMonth(), ot.getSinceDay());
-                        toDate = constructDate(ot.getToYear(), ot.getToMonth(), ot.getToDay());
+                        sinceDate = constructors.constructDate(ot.getSinceYear(), ot.getSinceMonth(), ot.getSinceDay());
+                        toDate = constructors.constructDate(ot.getToYear(), ot.getToMonth(), ot.getToDay());
                         occTitleObj = new Object[]{id, person_id, roleType, occTitle, occCat, sinceDate, toDate};
                         _personRoleRowCollector.putValues(occTitleObj);
                     }
@@ -167,7 +167,7 @@ public class personReader {
                     for (int pd = 0; pd < Date.getDateValue().size(); pd++) {
                         DateValue dateValue = Date.getDateValue().get(pd);
                         String id = dt + "-" + pd;
-                        persondate = constructDate(dateValue.getYear(), dateValue.getMonth(), dateValue.getDay());
+                        persondate = constructors.constructDate(dateValue.getYear(), dateValue.getMonth(), dateValue.getDay());
                         dateObj = new Object[]{id, person_id, dateType, persondate};
                         _personDateRowCollector.putValues(dateObj);
                     }
@@ -195,8 +195,8 @@ public class personReader {
                     String sinceDate = "";
                     String toDate = "";
                     reference = ref.getValue();
-                    sinceDate = constructDate(ref.getSinceYear(), ref.getSinceMonth(), ref.getSinceDay());
-                    toDate = constructDate(ref.getToYear(), ref.getToMonth(), ref.getToDay());
+                    sinceDate = constructors.constructDate(ref.getSinceYear(), ref.getSinceMonth(), ref.getSinceDay());
+                    toDate = constructors.constructDate(ref.getToYear(), ref.getToMonth(), ref.getToDay());
                     sanctionObj = new Object[]{id, person_id, reference, sinceDate, toDate};
                     _personSanctionRowCollector.putValues(sanctionObj);
                 }
@@ -275,7 +275,7 @@ public class personReader {
                     Image image = images.getImage().get(i);
                     String id = String.valueOf(i);
                     String url = "";
-                    url = image.getURL();
+                    url = image.getURL().toString();
 
                     imageObj = new Object[]{id, person_id, url};
                     _personImageRowCollector.putValues(imageObj);
@@ -288,33 +288,6 @@ public class personReader {
 
         }
         return true;
-    }
-
-    private static String constructDate(String Year, String Month, String Day) {
-        String date = "";
-        String day = "00";
-        String month = "00";
-        String year = "0000";
-
-        if (Month == null) {
-            month = "   ";
-        } else {
-            month = Month;
-        }
-        if (Year == null) {
-            year = "0000";
-        } else {
-            year = Year;
-        }
-        if (Day == null) {
-            day = "00";
-        } else {
-            day = Day;
-        }
-
-        date = year + "-" + month + "-" + day;
-
-        return date;
     }
 
 }

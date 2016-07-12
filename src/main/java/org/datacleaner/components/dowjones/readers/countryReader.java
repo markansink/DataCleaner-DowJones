@@ -7,13 +7,14 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
 /**
  * Created by mansink on 31-05-16.
  */
 public class countryReader {
-    public static boolean countryReader(XMLStreamReader xsr, OutputRowCollector _countryRowCollector) throws JAXBException {
+    public static boolean countryReader(XMLStreamReader xsr, OutputRowCollector _countryRowCollector) throws JAXBException, XMLStreamException {
 
         String code = "";
         String name = "";
@@ -40,7 +41,10 @@ public class countryReader {
             _countryRowCollector.putValues(resultObj);
 
         }
-
+        if (xsr.isEndElement()) {
+            xsr.next();
+        }
+        ;
         return true;
 
     }

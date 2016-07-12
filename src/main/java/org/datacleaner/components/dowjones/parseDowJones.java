@@ -24,6 +24,7 @@ import static org.datacleaner.components.dowjones.readers.dateTypeReader.dateTyp
 import static org.datacleaner.components.dowjones.readers.description1Reader.description1Reader;
 import static org.datacleaner.components.dowjones.readers.description2Reader.description2Reader;
 import static org.datacleaner.components.dowjones.readers.description3Reader.description3Reader;
+import static org.datacleaner.components.dowjones.readers.entityReader.entityReader;
 import static org.datacleaner.components.dowjones.readers.nameTypeReader.nameTypeReader;
 import static org.datacleaner.components.dowjones.readers.occupationReader.occupationReader;
 import static org.datacleaner.components.dowjones.readers.personReader.personReader;
@@ -46,7 +47,7 @@ public class parseDowJones implements Transformer, HasOutputDataStreams {
     @Inject
     @Provided
     OutputRowCollector outputRowCollector;
-
+    // reference output rows
     private OutputRowCollector _countryRowCollector;
     private OutputRowCollector _occupationRowCollector;
     private OutputRowCollector _relationshipRowCollector;
@@ -57,6 +58,7 @@ public class parseDowJones implements Transformer, HasOutputDataStreams {
     private OutputRowCollector _dateTypeRowCollector;
     private OutputRowCollector _nameTypeRowCollector;
     private OutputRowCollector _roleTypeRowCollector;
+    // person output rows
     private OutputRowCollector _personRowCollector;
     private OutputRowCollector _personNameRowCollector;
     private OutputRowCollector _personDescRowCollector;
@@ -69,6 +71,8 @@ public class parseDowJones implements Transformer, HasOutputDataStreams {
     private OutputRowCollector _personIDRowCollector;
     private OutputRowCollector _personSourceRowCollector;
     private OutputRowCollector _personImageRowCollector;
+    // entity output rows
+    private OutputRowCollector _entityRowCollector;
 
     @Override
     public OutputColumns getOutputColumns() {
@@ -105,13 +109,15 @@ public class parseDowJones implements Transformer, HasOutputDataStreams {
                     // check elementname with previous elementname.
                     // Sometimes (delta file) we need to tell the parser to go to the next element and sometimes it is already at the next element.
 
-                    if (elementNameNew.equals(elementName) && !Objects.equals(elementNameNew, "Person")) {
+                    if (elementNameNew.equals(elementName) &&
+                            (!Objects.equals(elementNameNew, "Person") ||
+                                    !Objects.equals(elementNameNew, "Entity"))
+                            ) {
                         xsr.nextTag();
                     }
                 } catch (Exception e) {
-                    xsr.nextTag();
+                    xsr.next();
                 }
-
 
                 int eventType = xsr.getEventType();
                 switch (eventType) {
@@ -123,6 +129,7 @@ public class parseDowJones implements Transformer, HasOutputDataStreams {
 
                         if (elementName.equals("CountryList")) {
                             countryReader(xsr, _countryRowCollector);
+
 
                         }
                         if (elementName.equals("OccupationList")) {
@@ -161,6 +168,7 @@ public class parseDowJones implements Transformer, HasOutputDataStreams {
                             roleTypeReader(xsr, _roleTypeRowCollector);
 
                         }
+
                         if (elementName.equals("Person")) {
                             personReader(xsr, _personRowCollector, _personNameRowCollector,
                                     _personDescRowCollector, _personRoleRowCollector, _personDateRowCollector,
@@ -168,7 +176,15 @@ public class parseDowJones implements Transformer, HasOutputDataStreams {
                                     _personCountryRowCollector, _personIDRowCollector, _personSourceRowCollector, _personImageRowCollector);
 
                         }
+                        if (elementName.equals("Entity")) {
+                            entityReader(xsr, _entityRowCollector);
+
+                        }
+                        ;
                         break;
+                    default:
+                        xsr.next();
+
                 }
 
             }
@@ -319,6 +335,11 @@ public class parseDowJones implements Transformer, HasOutputDataStreams {
         personImageStreamBuilder.withColumn("PersonID", ColumnType.STRING);
         personImageStreamBuilder.withColumn("URL", ColumnType.STRING);
 
+        final OutputDataStreamBuilder entityStreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_ENTITY);
+        entityStreamBuilder.withColumn("EntityId", ColumnType.STRING);
+        entityStreamBuilder.withColumn("Action", ColumnType.STRING);
+        entityStreamBuilder.withColumn("ActiveStatus", ColumnType.STRING);
+        entityStreamBuilder.withColumn("ProfileNotes", ColumnType.STRING);
 
         return new OutputDataStream[]{
                 occupationStreamBuilder.toOutputDataStream(), countryStreamBuilder.toOutputDataStream(),
@@ -332,6 +353,7 @@ public class parseDowJones implements Transformer, HasOutputDataStreams {
                 personSanctionStreamBuilder.toOutputDataStream(), personAddressStreamBuilder.toOutputDataStream(),
                 personIdStreamBuilder.toOutputDataStream(), personImageStreamBuilder.toOutputDataStream(),
                 personSourceStreamBuilder.toOutputDataStream(), personCountryStreamBuilder.toOutputDataStream()
+                , entityStreamBuilder.toOutputDataStream()
         };
 
     }
@@ -405,6 +427,9 @@ public class parseDowJones implements Transformer, HasOutputDataStreams {
         }
         if (outputDataStream.getName().equals(OUTPUT_STREAM_PERSONIMAGES)) {
             _personImageRowCollector = outputRowCollector;
+        }
+        if (outputDataStream.getName().equals(OUTPUT_STREAM_ENTITY)) {
+            _entityRowCollector = outputRowCollector;
         }
     }
 }
