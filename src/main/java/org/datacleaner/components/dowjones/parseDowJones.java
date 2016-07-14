@@ -108,12 +108,13 @@ public class parseDowJones implements Transformer, HasOutputDataStreams {
                     elementNameNew = xsr.getLocalName();
                     // check elementname with previous elementname.
                     // Sometimes (delta file) we need to tell the parser to go to the next element and sometimes it is already at the next element.
+                    // need to skip this on the person and entity tags
+                    if (elementNameNew.equals(elementName)) {
+                        if
+                                (!Arrays.asList("Entity", "Person").contains(elementNameNew)) {
+                            xsr.next();
+                        }
 
-                    if (elementNameNew.equals(elementName) &&
-                            (Arrays.asList("Entity", "Person").contains(elementNameNew))
-
-                            ) {
-                        xsr.nextTag();
                     }
                 } catch (Exception e) {
                     xsr.next();

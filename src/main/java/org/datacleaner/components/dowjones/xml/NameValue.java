@@ -8,20 +8,16 @@
 
 package org.datacleaner.components.dowjones.xml;
 
+import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
 
 
 /**
  * <p>Java class for anonymous complex type.
- * <p>
+ * <p/>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * <p>
+ * <p/>
  * <pre>
  * &lt;complexType>
  *   &lt;complexContent>
@@ -78,21 +74,21 @@ public class NameValue {
 
     /**
      * Gets the value of the titleHonorific property.
-     * <p>
-     * <p>
+     * <p/>
+     * <p/>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the titleHonorific property.
-     * <p>
-     * <p>
+     * <p/>
+     * <p/>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getTitleHonorific().add(newItem);
      * </pre>
-     * <p>
-     * <p>
-     * <p>
+     * <p/>
+     * <p/>
+     * <p/>
      * Objects of the following type(s) are allowed in the list
      * {@link String }
      */
@@ -105,21 +101,21 @@ public class NameValue {
 
     /**
      * Gets the value of the firstName property.
-     * <p>
-     * <p>
+     * <p/>
+     * <p/>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the firstName property.
-     * <p>
-     * <p>
+     * <p/>
+     * <p/>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getFirstName().add(newItem);
      * </pre>
-     * <p>
-     * <p>
-     * <p>
+     * <p/>
+     * <p/>
+     * <p/>
      * Objects of the following type(s) are allowed in the list
      * {@link String }
      */
@@ -132,21 +128,21 @@ public class NameValue {
 
     /**
      * Gets the value of the middleName property.
-     * <p>
-     * <p>
+     * <p/>
+     * <p/>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the middleName property.
-     * <p>
-     * <p>
+     * <p/>
+     * <p/>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getMiddleName().add(newItem);
      * </pre>
-     * <p>
-     * <p>
-     * <p>
+     * <p/>
+     * <p/>
+     * <p/>
      * Objects of the following type(s) are allowed in the list
      * {@link String }
      */
@@ -159,21 +155,21 @@ public class NameValue {
 
     /**
      * Gets the value of the surname property.
-     * <p>
-     * <p>
+     * <p/>
+     * <p/>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the surname property.
-     * <p>
-     * <p>
+     * <p/>
+     * <p/>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getSurname().add(newItem);
      * </pre>
-     * <p>
-     * <p>
-     * <p>
+     * <p/>
+     * <p/>
+     * <p/>
      * Objects of the following type(s) are allowed in the list
      * {@link String }
      */
@@ -186,21 +182,21 @@ public class NameValue {
 
     /**
      * Gets the value of the maidenName property.
-     * <p>
-     * <p>
+     * <p/>
+     * <p/>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the maidenName property.
-     * <p>
-     * <p>
+     * <p/>
+     * <p/>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getMaidenName().add(newItem);
      * </pre>
-     * <p>
-     * <p>
-     * <p>
+     * <p/>
+     * <p/>
+     * <p/>
      * Objects of the following type(s) are allowed in the list
      * {@link String }
      */
@@ -213,21 +209,21 @@ public class NameValue {
 
     /**
      * Gets the value of the suffix property.
-     * <p>
-     * <p>
+     * <p/>
+     * <p/>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the suffix property.
-     * <p>
-     * <p>
+     * <p/>
+     * <p/>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getSuffix().add(newItem);
      * </pre>
-     * <p>
-     * <p>
-     * <p>
+     * <p/>
+     * <p/>
+     * <p/>
      * Objects of the following type(s) are allowed in the list
      * {@link String }
      */
@@ -240,21 +236,21 @@ public class NameValue {
 
     /**
      * Gets the value of the entityName property.
-     * <p>
-     * <p>
+     * <p/>
+     * <p/>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the entityName property.
-     * <p>
-     * <p>
+     * <p/>
+     * <p/>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getEntityName().add(newItem);
      * </pre>
-     * <p>
-     * <p>
-     * <p>
+     * <p/>
+     * <p/>
+     * <p/>
      * Objects of the following type(s) are allowed in the list
      * {@link String }
      */
@@ -267,21 +263,21 @@ public class NameValue {
 
     /**
      * Gets the value of the singleStringName property.
-     * <p>
-     * <p>
+     * <p/>
+     * <p/>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the singleStringName property.
-     * <p>
-     * <p>
+     * <p/>
+     * <p/>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getSingleStringName().add(newItem);
      * </pre>
-     * <p>
-     * <p>
-     * <p>
+     * <p/>
+     * <p/>
+     * <p/>
      * Objects of the following type(s) are allowed in the list
      * {@link String }
      */
@@ -294,21 +290,21 @@ public class NameValue {
 
     /**
      * Gets the value of the originalScriptName property.
-     * <p>
-     * <p>
+     * <p/>
+     * <p/>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the originalScriptName property.
-     * <p>
-     * <p>
+     * <p/>
+     * <p/>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getOriginalScriptName().add(newItem);
      * </pre>
-     * <p>
-     * <p>
-     * <p>
+     * <p/>
+     * <p/>
+     * <p/>
      * Objects of the following type(s) are allowed in the list
      * {@link String }
      */
