@@ -41,10 +41,6 @@ public class countryReader {
             _countryRowCollector.putValues(resultObj);
 
         }
-        if (xsr.isEndElement()) {
-            xsr.next();
-        }
-        ;
         return true;
 
     }

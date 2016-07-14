@@ -16,7 +16,7 @@ import javax.xml.stream.XMLStreamReader;
 import javax.xml.transform.stream.StreamSource;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.Objects;
+import java.util.Arrays;
 
 import static org.datacleaner.components.dowjones.outputDataStreams.*;
 import static org.datacleaner.components.dowjones.readers.countryReader.countryReader;
@@ -110,8 +110,8 @@ public class parseDowJones implements Transformer, HasOutputDataStreams {
                     // Sometimes (delta file) we need to tell the parser to go to the next element and sometimes it is already at the next element.
 
                     if (elementNameNew.equals(elementName) &&
-                            (!Objects.equals(elementNameNew, "Person") ||
-                                    !Objects.equals(elementNameNew, "Entity"))
+                            (Arrays.asList("Entity", "Person").contains(elementNameNew))
+
                             ) {
                         xsr.nextTag();
                     }
@@ -129,7 +129,6 @@ public class parseDowJones implements Transformer, HasOutputDataStreams {
 
                         if (elementName.equals("CountryList")) {
                             countryReader(xsr, _countryRowCollector);
-
 
                         }
                         if (elementName.equals("OccupationList")) {
