@@ -15,6 +15,18 @@ import java.util.List;
  */
 public class personReader {
 
+    private static Unmarshaller unmarshaller;
+
+    static {
+        try {
+            JAXBContext jc = JAXBContext.newInstance(Person.class);
+            unmarshaller = jc.createUnmarshaller();
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     public static boolean personReader(XMLStreamReader xsr, OutputRowCollector _personRowCollector,
                                        OutputRowCollector _personNameRowCollector, OutputRowCollector _personDescRowCollector,
                                        OutputRowCollector _personRoleRowCollector, OutputRowCollector _personDateRowCollector,
@@ -44,9 +56,7 @@ public class personReader {
         Object[] sourceObj;
         Object[] imageObj;
 
-        JAXBContext jc = JAXBContext.newInstance(Person.class);
-        Unmarshaller unmarshallerCountry = jc.createUnmarshaller();
-        JAXBElement<Person> persons = unmarshallerCountry.unmarshal(xsr, Person.class);
+        JAXBElement<Person> persons = unmarshaller.unmarshal(xsr, Person.class);
 
         Person person = persons.getValue();
 
@@ -275,7 +285,7 @@ public class personReader {
                     Image image = images.getImage().get(i);
                     String id = String.valueOf(i);
                     String url = "";
-                    url = image.getURL().toString();
+                    url = image.getURL();
 
                     imageObj = new Object[]{id, person_id, url};
                     _personImageRowCollector.putValues(imageObj);

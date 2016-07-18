@@ -13,6 +13,18 @@ import javax.xml.stream.XMLStreamReader;
  * Created by mansink on 31-05-16.
  */
 public class entityReader {
+
+    private static Unmarshaller unmarshaller;
+
+    static {
+        try {
+            JAXBContext jc = JAXBContext.newInstance(Entity.class);
+            unmarshaller = jc.createUnmarshaller();
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static boolean entityReader(XMLStreamReader xsr, OutputRowCollector _entityRowCollector) throws JAXBException {
 
         String entityId = "";
@@ -22,9 +34,7 @@ public class entityReader {
 
         Object[] resultObj;
 
-        JAXBContext jcEntity = JAXBContext.newInstance(Entity.class);
-        Unmarshaller unmarshallerCountry = jcEntity.createUnmarshaller();
-        JAXBElement<Entity> entities = unmarshallerCountry.unmarshal(xsr, Entity.class);
+        JAXBElement<Entity> entities = unmarshaller.unmarshal(xsr, Entity.class);
 
         Entity entity = entities.getValue();
         try {

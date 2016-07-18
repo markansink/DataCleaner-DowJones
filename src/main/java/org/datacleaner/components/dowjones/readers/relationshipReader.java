@@ -13,15 +13,23 @@ import javax.xml.stream.XMLStreamReader;
  * Created by mansink on 31-05-16.
  */
 public class relationshipReader {
+    private static Unmarshaller unmarshaller;
+
+    static {
+        try {
+            JAXBContext jc = JAXBContext.newInstance(RelationshipList.class);
+            unmarshaller = jc.createUnmarshaller();
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static boolean relationshipReader(XMLStreamReader xsr, OutputRowCollector _relationshipRowCollector) throws JAXBException {
 
         String code = "";
         String name = "";
 
         Object[] resultObj;
-
-        JAXBContext jc = JAXBContext.newInstance(RelationshipList.class);
-        Unmarshaller unmarshaller = jc.createUnmarshaller();
         JAXBElement<RelationshipList> jx = unmarshaller.unmarshal(xsr, RelationshipList.class);
 
 

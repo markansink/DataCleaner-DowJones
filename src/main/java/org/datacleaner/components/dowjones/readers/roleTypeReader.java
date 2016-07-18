@@ -13,6 +13,16 @@ import javax.xml.stream.XMLStreamReader;
  * Created by mansink on 31-05-16.
  */
 public class roleTypeReader {
+    private static Unmarshaller unmarshaller;
+
+    static {
+        try {
+            JAXBContext jc = JAXBContext.newInstance(RoleTypeList.class);
+            unmarshaller = jc.createUnmarshaller();
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+    }
     public static boolean roleTypeReader(XMLStreamReader xsr, OutputRowCollector _roleTypeRowCollector) throws JAXBException {
 
 
@@ -21,10 +31,6 @@ public class roleTypeReader {
 
 
         Object[] resultObj;
-
-
-        JAXBContext jc = JAXBContext.newInstance(RoleTypeList.class);
-        Unmarshaller unmarshaller = jc.createUnmarshaller();
         JAXBElement<RoleTypeList> je = unmarshaller.unmarshal(xsr, RoleTypeList.class);
 
 

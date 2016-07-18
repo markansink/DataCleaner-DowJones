@@ -13,6 +13,17 @@ import javax.xml.stream.XMLStreamReader;
  * Created by mansink on 31-05-16.
  */
 public class sanctionsReferencesListReader {
+    private static Unmarshaller unmarshaller;
+
+    static {
+        try {
+            JAXBContext jc = JAXBContext.newInstance(SanctionsReferencesList.class);
+            unmarshaller = jc.createUnmarshaller();
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static boolean sanctionsReferencesListReader(XMLStreamReader xsr, OutputRowCollector _occupationRowCollector) throws JAXBException {
 
         String code = "";
@@ -20,10 +31,6 @@ public class sanctionsReferencesListReader {
         String status = "";
         String description2Id = "";
         Object[] resultObj;
-
-
-        JAXBContext jc = JAXBContext.newInstance(SanctionsReferencesList.class);
-        Unmarshaller unmarshaller = jc.createUnmarshaller();
         JAXBElement<SanctionsReferencesList> je = unmarshaller.unmarshal(xsr, SanctionsReferencesList.class);
 
 

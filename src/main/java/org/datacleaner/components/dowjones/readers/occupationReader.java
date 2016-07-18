@@ -13,16 +13,23 @@ import javax.xml.stream.XMLStreamReader;
  * Created by mansink on 31-05-16.
  */
 public class occupationReader {
+    private static Unmarshaller unmarshaller;
+
+    static {
+        try {
+            JAXBContext jc = JAXBContext.newInstance(OccupationList.class);
+            unmarshaller = jc.createUnmarshaller();
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+    }
     public static boolean occupationReader(XMLStreamReader xsr, OutputRowCollector _occupationRowCollector) throws JAXBException {
 
         String code = "";
         String name = "";
         Object[] resultObj;
 
-
-        JAXBContext jc = JAXBContext.newInstance(OccupationList.class);
-        Unmarshaller unmarshallerCountry = jc.createUnmarshaller();
-        JAXBElement<OccupationList> je = unmarshallerCountry.unmarshal(xsr, OccupationList.class);
+        JAXBElement<OccupationList> je = unmarshaller.unmarshal(xsr, OccupationList.class);
 
 
         OccupationList occupation = je.getValue();

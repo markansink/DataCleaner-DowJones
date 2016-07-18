@@ -13,6 +13,17 @@ import javax.xml.stream.XMLStreamReader;
  * Created by mansink on 31-05-16.
  */
 public class description3Reader {
+
+    private static Unmarshaller unmarshaller;
+
+    static {
+        try {
+            JAXBContext jc = JAXBContext.newInstance(Description3List.class);
+            unmarshaller = jc.createUnmarshaller();
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+    }
     public static boolean description3Reader(XMLStreamReader xsr, OutputRowCollector _description3RowCollector) throws JAXBException {
 
 
@@ -21,10 +32,6 @@ public class description3Reader {
         String value = "";
 
         Object[] resultObj;
-
-
-        JAXBContext jc = JAXBContext.newInstance(Description3List.class);
-        Unmarshaller unmarshaller = jc.createUnmarshaller();
         JAXBElement<Description3List> je = unmarshaller.unmarshal(xsr, Description3List.class);
 
 

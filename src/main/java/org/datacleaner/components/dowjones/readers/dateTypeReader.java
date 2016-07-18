@@ -13,18 +13,24 @@ import javax.xml.stream.XMLStreamReader;
  * Created by mansink on 31-05-16.
  */
 public class dateTypeReader {
+    private static Unmarshaller unmarshaller;
+
+    static {
+        try {
+            JAXBContext jc = JAXBContext.newInstance(DateTypeList.class);
+            unmarshaller = jc.createUnmarshaller();
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+    }
     public static boolean dateTypeReader(XMLStreamReader xsr, OutputRowCollector _dateTypeRowCollector) throws JAXBException {
 
 
-        String id = "";
-        String name = "";
-        String recordtype = "";
+        String id;
+        String name;
+        String recordtype;
 
         Object[] resultObj;
-
-
-        JAXBContext jc = JAXBContext.newInstance(DateTypeList.class);
-        Unmarshaller unmarshaller = jc.createUnmarshaller();
         JAXBElement<DateTypeList> je = unmarshaller.unmarshal(xsr, DateTypeList.class);
 
 

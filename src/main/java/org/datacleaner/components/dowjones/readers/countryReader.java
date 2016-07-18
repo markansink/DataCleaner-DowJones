@@ -14,17 +14,29 @@ import javax.xml.stream.XMLStreamReader;
  * Created by mansink on 31-05-16.
  */
 public class countryReader {
+
+    private static Unmarshaller unmarshaller;
+
+    static {
+        try {
+            JAXBContext jc = JAXBContext.newInstance(CountryList.class);
+            unmarshaller = jc.createUnmarshaller();
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     public static boolean countryReader(XMLStreamReader xsr, OutputRowCollector _countryRowCollector) throws JAXBException, XMLStreamException {
 
-        String code = "";
-        String name = "";
-        String isTerritory = "";
-        String profileURL = "";
+        String code;
+        String name;
+        String isTerritory;
+        String profileURL;
         Object[] resultObj;
 
-        JAXBContext jcCountry = JAXBContext.newInstance(CountryList.class);
-        Unmarshaller unmarshallerCountry = jcCountry.createUnmarshaller();
-        JAXBElement<CountryList> countries = unmarshallerCountry.unmarshal(xsr, CountryList.class);
+
+        JAXBElement<CountryList> countries = unmarshaller.unmarshal(xsr, CountryList.class);
 
 
         CountryList country = countries.getValue();
