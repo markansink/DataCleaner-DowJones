@@ -229,8 +229,8 @@ public class personReader {
             }
             CountryDetails countryDetails = person.getCountryDetails();
             if (countryDetails != null) {
-                for (int c = 0; c < person.getCountryDetails().getCountry().size(); c++) {
-                    Country Country = person.getCountryDetails().getCountry().get(c);
+                for (int c = 0; c < countryDetails.getCountry().size(); c++) {
+                    Country Country = countryDetails.getCountry().get(c);
                     String countryType = "";
                     countryType = Country.getCountryType();
 

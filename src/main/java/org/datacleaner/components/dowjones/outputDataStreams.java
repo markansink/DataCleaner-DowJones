@@ -30,4 +30,12 @@ public class outputDataStreams {
     public static final String OUTPUT_STREAM_PERSONIMAGES = "Person Images rows";
     // Entity
     public static final String OUTPUT_STREAM_ENTITY = "Entity rows";
+    public static final String OUTPUT_STREAM_ENTITYNAME = "Entity Name rows";
+    public static final String OUTPUT_STREAM_ENTITYDESC = "Entity Description rows";
+    public static final String OUTPUT_STREAM_ENTITYDATE = "Entity Date rows";
+    public static final String OUTPUT_STREAM_ENTITYSANCTION = "Entity Sanction Reference rows";
+    public static final String OUTPUT_STREAM_ENTITYADDRESS = "Entity Address rows";
+    public static final String OUTPUT_STREAM_ENTITYCOUNTRY = "Entity Country rows";
+    public static final String OUTPUT_STREAM_ENTITYID = "Entity ID Number Types rows";
+    public static final String OUTPUT_STREAM_ENTITYSOURCEDESCRIPTION = "Entity Sanction Source Description rows";
 }

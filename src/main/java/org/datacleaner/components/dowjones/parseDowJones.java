@@ -73,6 +73,14 @@ public class parseDowJones implements Transformer, HasOutputDataStreams {
     private OutputRowCollector _personImageRowCollector;
     // entity output rows
     private OutputRowCollector _entityRowCollector;
+    private OutputRowCollector _entityNameRowCollector;
+    private OutputRowCollector _entityDescRowCollector;
+    private OutputRowCollector _entityDateRowCollector;
+    private OutputRowCollector _entitySanctionRowCollector;
+    private OutputRowCollector _entityAddressRowCollector;
+    private OutputRowCollector _entityCountryRowCollector;
+    private OutputRowCollector _entityIDRowCollector;
+    private OutputRowCollector _entitySourceRowCollector;
 
     @Override
     public OutputColumns getOutputColumns() {
@@ -121,72 +129,68 @@ public class parseDowJones implements Transformer, HasOutputDataStreams {
                 }
 
                 int eventType = xsr.getEventType();
-                switch (eventType) {
+                if (XMLStreamReader.START_ELEMENT == eventType) {
+                    elementName = xsr.getLocalName();
 
-                    case (XMLStreamReader.START_ELEMENT):
+                    if (elementName.equals("CountryList")) {
+                        countryReader(xsr, _countryRowCollector);
 
+                    }
+                    if (elementName.equals("OccupationList")) {
+                        occupationReader(xsr, _occupationRowCollector);
 
-                        elementName = xsr.getLocalName();
+                    }
+                    if (elementName.equals("RelationshipList")) {
+                        relationshipReader(xsr, _relationshipRowCollector);
 
-                        if (elementName.equals("CountryList")) {
-                            countryReader(xsr, _countryRowCollector);
+                    }
+                    if (elementName.equals("SanctionsReferencesList")) {
+                        sanctionsReferencesListReader(xsr, _sanctionsReferencesRowCollector);
 
-                        }
-                        if (elementName.equals("OccupationList")) {
-                            occupationReader(xsr, _occupationRowCollector);
+                    }
+                    if (elementName.equals("Description1List")) {
+                        description1Reader(xsr, _description1RowCollector);
 
-                        }
-                        if (elementName.equals("RelationshipList")) {
-                            relationshipReader(xsr, _relationshipRowCollector);
+                    }
+                    if (elementName.equals("Description2List")) {
+                        description2Reader(xsr, _description2RowCollector);
 
-                        }
-                        if (elementName.equals("SanctionsReferencesList")) {
-                            sanctionsReferencesListReader(xsr, _sanctionsReferencesRowCollector);
+                    }
+                    if (elementName.equals("Description3List")) {
+                        description3Reader(xsr, _description3RowCollector);
 
-                        }
-                        if (elementName.equals("Description1List")) {
-                            description1Reader(xsr, _description1RowCollector);
+                    }
+                    if (elementName.equals("DateTypeList")) {
+                        dateTypeReader(xsr, _dateTypeRowCollector);
 
-                        }
-                        if (elementName.equals("Description2List")) {
-                            description2Reader(xsr, _description2RowCollector);
+                    }
+                    if (elementName.equals("NameTypeList")) {
+                        nameTypeReader(xsr, _nameTypeRowCollector);
 
-                        }
-                        if (elementName.equals("Description3List")) {
-                            description3Reader(xsr, _description3RowCollector);
+                    }
+                    if (elementName.equals("RoleTypeList")) {
+                        roleTypeReader(xsr, _roleTypeRowCollector);
 
-                        }
-                        if (elementName.equals("DateTypeList")) {
-                            dateTypeReader(xsr, _dateTypeRowCollector);
+                    }
 
-                        }
-                        if (elementName.equals("NameTypeList")) {
-                            nameTypeReader(xsr, _nameTypeRowCollector);
+                    if (elementName.equals("Person")) {
+                        personReader(xsr, _personRowCollector, _personNameRowCollector,
+                                _personDescRowCollector, _personRoleRowCollector, _personDateRowCollector,
+                                _personPlaceRowCollector, _personSanctionRowCollector, _personAddressRowCollector,
+                                _personCountryRowCollector, _personIDRowCollector, _personSourceRowCollector, _personImageRowCollector);
 
-                        }
-                        if (elementName.equals("RoleTypeList")) {
-                            roleTypeReader(xsr, _roleTypeRowCollector);
+                    }
+                    if (elementName.equals("Entity")) {
+                        entityReader(xsr, _entityRowCollector, _entityNameRowCollector, _entityDescRowCollector,
+                                _entityDateRowCollector, _entitySanctionRowCollector,
+                                _entityAddressRowCollector, _entityCountryRowCollector,
+                                _entityIDRowCollector, _entitySourceRowCollector);
 
-                        }
-
-                        if (elementName.equals("Person")) {
-                            personReader(xsr, _personRowCollector, _personNameRowCollector,
-                                    _personDescRowCollector, _personRoleRowCollector, _personDateRowCollector,
-                                    _personPlaceRowCollector, _personSanctionRowCollector, _personAddressRowCollector,
-                                    _personCountryRowCollector, _personIDRowCollector, _personSourceRowCollector, _personImageRowCollector);
-
-                        }
-                        if (elementName.equals("Entity")) {
-                            entityReader(xsr, _entityRowCollector);
-
-                        }
-                        ;
-                        break;
-                    default:
-                        xsr.next();
-
+                    }
+                    ;
+                } else {
+                    xsr.next();
                 }
-
             }
             xsr.close();
         } catch (XMLStreamException | JAXBException | FileNotFoundException e) {
@@ -341,6 +345,57 @@ public class parseDowJones implements Transformer, HasOutputDataStreams {
         entityStreamBuilder.withColumn("ActiveStatus", ColumnType.STRING);
         entityStreamBuilder.withColumn("ProfileNotes", ColumnType.STRING);
 
+        final OutputDataStreamBuilder entityNameStreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_ENTITYNAME);
+        entityNameStreamBuilder.withColumn("ID", ColumnType.STRING);
+        entityNameStreamBuilder.withColumn("EntityID", ColumnType.STRING);
+        entityNameStreamBuilder.withColumn("EntityName", ColumnType.STRING);
+
+        final OutputDataStreamBuilder entityDescStreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_ENTITYDESC);
+        entityDescStreamBuilder.withColumn("ID", ColumnType.STRING);
+        entityDescStreamBuilder.withColumn("EntityID", ColumnType.STRING);
+        entityDescStreamBuilder.withColumn("Description1", ColumnType.STRING);
+        entityDescStreamBuilder.withColumn("Description2", ColumnType.STRING);
+        entityDescStreamBuilder.withColumn("Description3", ColumnType.STRING);
+
+        final OutputDataStreamBuilder entityDateStreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_ENTITYDATE);
+        entityDateStreamBuilder.withColumn("ID", ColumnType.STRING);
+        entityDateStreamBuilder.withColumn("EntityID", ColumnType.STRING);
+        entityDateStreamBuilder.withColumn("DateType", ColumnType.STRING);
+        entityDateStreamBuilder.withColumn("Date", ColumnType.STRING);
+
+        final OutputDataStreamBuilder entitySanctionStreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_ENTITYSANCTION);
+        entitySanctionStreamBuilder.withColumn("ID", ColumnType.STRING);
+        entitySanctionStreamBuilder.withColumn("EntityID", ColumnType.STRING);
+        entitySanctionStreamBuilder.withColumn("Reference", ColumnType.STRING);
+        entitySanctionStreamBuilder.withColumn("SinceDate", ColumnType.STRING);
+        entitySanctionStreamBuilder.withColumn("ToDate", ColumnType.STRING);
+
+        final OutputDataStreamBuilder entityAddressStreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_ENTITYADDRESS);
+        entityAddressStreamBuilder.withColumn("ID", ColumnType.STRING);
+        entityAddressStreamBuilder.withColumn("EntityID", ColumnType.STRING);
+        entityAddressStreamBuilder.withColumn("AddressLine", ColumnType.STRING);
+        entityAddressStreamBuilder.withColumn("City", ColumnType.STRING);
+        entityAddressStreamBuilder.withColumn("Country", ColumnType.STRING);
+        entityAddressStreamBuilder.withColumn("URL", ColumnType.STRING);
+
+        final OutputDataStreamBuilder entityCountryStreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_ENTITYCOUNTRY);
+        entityCountryStreamBuilder.withColumn("ID", ColumnType.STRING);
+        entityCountryStreamBuilder.withColumn("EntityID", ColumnType.STRING);
+        entityCountryStreamBuilder.withColumn("CountryType", ColumnType.STRING);
+        entityCountryStreamBuilder.withColumn("Country", ColumnType.STRING);
+
+        final OutputDataStreamBuilder entityIdStreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_ENTITYID);
+        entityIdStreamBuilder.withColumn("ID", ColumnType.STRING);
+        entityIdStreamBuilder.withColumn("EntityID", ColumnType.STRING);
+        entityIdStreamBuilder.withColumn("IDType", ColumnType.STRING);
+        entityIdStreamBuilder.withColumn("IDValue", ColumnType.STRING);
+        entityIdStreamBuilder.withColumn("IDNotes", ColumnType.STRING);
+
+        final OutputDataStreamBuilder entitySourceStreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_ENTITYSOURCEDESCRIPTION);
+        entitySourceStreamBuilder.withColumn("ID", ColumnType.STRING);
+        entitySourceStreamBuilder.withColumn("EntityID", ColumnType.STRING);
+        entitySourceStreamBuilder.withColumn("Source", ColumnType.STRING);
+
         return new OutputDataStream[]{
                 occupationStreamBuilder.toOutputDataStream(), countryStreamBuilder.toOutputDataStream(),
                 relationshipStreamBuilder.toOutputDataStream(), referenceNameStreamBuilder.toOutputDataStream(),
@@ -352,8 +407,12 @@ public class parseDowJones implements Transformer, HasOutputDataStreams {
                 personDateStreamBuilder.toOutputDataStream(), personPlaceStreamBuilder.toOutputDataStream(),
                 personSanctionStreamBuilder.toOutputDataStream(), personAddressStreamBuilder.toOutputDataStream(),
                 personIdStreamBuilder.toOutputDataStream(), personImageStreamBuilder.toOutputDataStream(),
-                personSourceStreamBuilder.toOutputDataStream(), personCountryStreamBuilder.toOutputDataStream()
-                , entityStreamBuilder.toOutputDataStream()
+                personSourceStreamBuilder.toOutputDataStream(), personCountryStreamBuilder.toOutputDataStream(),
+                entityStreamBuilder.toOutputDataStream(), entityNameStreamBuilder.toOutputDataStream(),
+                entityDescStreamBuilder.toOutputDataStream(), entityDateStreamBuilder.toOutputDataStream(),
+                entitySanctionStreamBuilder.toOutputDataStream(), entityAddressStreamBuilder.toOutputDataStream(),
+                entityCountryStreamBuilder.toOutputDataStream(), entityIdStreamBuilder.toOutputDataStream(),
+                entitySourceStreamBuilder.toOutputDataStream()
         };
 
     }
@@ -430,6 +489,30 @@ public class parseDowJones implements Transformer, HasOutputDataStreams {
         }
         if (outputDataStream.getName().equals(OUTPUT_STREAM_ENTITY)) {
             _entityRowCollector = outputRowCollector;
+        }
+        if (outputDataStream.getName().equals(OUTPUT_STREAM_ENTITYNAME)) {
+            _entityNameRowCollector = outputRowCollector;
+        }
+        if (outputDataStream.getName().equals(OUTPUT_STREAM_ENTITYDESC)) {
+            _entityDescRowCollector = outputRowCollector;
+        }
+        if (outputDataStream.getName().equals(OUTPUT_STREAM_ENTITYDATE)) {
+            _entityDateRowCollector = outputRowCollector;
+        }
+        if (outputDataStream.getName().equals(OUTPUT_STREAM_ENTITYSANCTION)) {
+            _entitySanctionRowCollector = outputRowCollector;
+        }
+        if (outputDataStream.getName().equals(OUTPUT_STREAM_ENTITYADDRESS)) {
+            _entityAddressRowCollector = outputRowCollector;
+        }
+        if (outputDataStream.getName().equals(OUTPUT_STREAM_ENTITYCOUNTRY)) {
+            _entityCountryRowCollector = outputRowCollector;
+        }
+        if (outputDataStream.getName().equals(OUTPUT_STREAM_ENTITYID)) {
+            _entityIDRowCollector = outputRowCollector;
+        }
+        if (outputDataStream.getName().equals(OUTPUT_STREAM_ENTITYSOURCEDESCRIPTION)) {
+            _entitySourceRowCollector = outputRowCollector;
         }
     }
 }
