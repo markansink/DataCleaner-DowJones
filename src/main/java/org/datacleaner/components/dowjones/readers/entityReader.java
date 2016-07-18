@@ -145,7 +145,6 @@ public class entityReader {
 
                 }
             }
-//TODO Company Details
 
             CountryDetails countryDetails = entity.getCountryDetails();
             if (countryDetails != null) {
