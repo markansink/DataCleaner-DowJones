@@ -93,6 +93,7 @@ public class parseDowJones implements Transformer, HasOutputDataStreams {
     @Override
     public Object[] transform(InputRow inputRow) {
         String fileURL = inputRow.getValue(url);
+
         String filename = fileURL.substring(fileURL.indexOf("PFA2_") + 5);
         String date = filename.substring(0, filename.indexOf("_"));
         String type = filename.substring(filename.indexOf("_") + 1, filename.indexOf("."));
@@ -204,197 +205,197 @@ public class parseDowJones implements Transformer, HasOutputDataStreams {
     public OutputDataStream[] getOutputDataStreams() {
         final OutputDataStreamBuilder countryStreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_COUNTRY);
 
-        countryStreamBuilder.withColumn("Code", ColumnType.STRING);
-        countryStreamBuilder.withColumn("Name", ColumnType.STRING);
-        countryStreamBuilder.withColumn("IsTerritory", ColumnType.STRING);
-        countryStreamBuilder.withColumn("ProfileURL", ColumnType.STRING);
+        countryStreamBuilder.withColumn("Code", ColumnType.NVARCHAR);
+        countryStreamBuilder.withColumn("Name", ColumnType.NVARCHAR);
+        countryStreamBuilder.withColumn("IsTerritory", ColumnType.NVARCHAR);
+        countryStreamBuilder.withColumn("ProfileURL", ColumnType.NVARCHAR);
 
         final OutputDataStreamBuilder occupationStreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_OCCUPATION);
-        occupationStreamBuilder.withColumn("Code", ColumnType.STRING);
-        occupationStreamBuilder.withColumn("Name", ColumnType.STRING);
+        occupationStreamBuilder.withColumn("Code", ColumnType.NVARCHAR);
+        occupationStreamBuilder.withColumn("Name", ColumnType.NVARCHAR);
 
         final OutputDataStreamBuilder relationshipStreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_RELATIONSHIPS);
-        relationshipStreamBuilder.withColumn("Code", ColumnType.STRING);
-        relationshipStreamBuilder.withColumn("Name", ColumnType.STRING);
+        relationshipStreamBuilder.withColumn("Code", ColumnType.NVARCHAR);
+        relationshipStreamBuilder.withColumn("Name", ColumnType.NVARCHAR);
 
         final OutputDataStreamBuilder referenceNameStreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_REFERENCENAME);
-        referenceNameStreamBuilder.withColumn("Code", ColumnType.STRING);
-        referenceNameStreamBuilder.withColumn("Name", ColumnType.STRING);
-        referenceNameStreamBuilder.withColumn("Status", ColumnType.STRING);
-        referenceNameStreamBuilder.withColumn("Description2id", ColumnType.STRING);
+        referenceNameStreamBuilder.withColumn("Code", ColumnType.NVARCHAR);
+        referenceNameStreamBuilder.withColumn("Name", ColumnType.NVARCHAR);
+        referenceNameStreamBuilder.withColumn("Status", ColumnType.NVARCHAR);
+        referenceNameStreamBuilder.withColumn("Description2id", ColumnType.NVARCHAR);
 
         final OutputDataStreamBuilder description1StreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_DESCRIPTION1);
-        description1StreamBuilder.withColumn("Description1Id", ColumnType.STRING);
-        description1StreamBuilder.withColumn("Value", ColumnType.STRING);
-        description1StreamBuilder.withColumn("RecordType", ColumnType.STRING);
+        description1StreamBuilder.withColumn("Description1Id", ColumnType.NVARCHAR);
+        description1StreamBuilder.withColumn("Value", ColumnType.NVARCHAR);
+        description1StreamBuilder.withColumn("RecordType", ColumnType.NVARCHAR);
 
         final OutputDataStreamBuilder description2StreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_DESCRIPTION2);
-        description2StreamBuilder.withColumn("Description2Id", ColumnType.STRING);
-        description2StreamBuilder.withColumn("Value", ColumnType.STRING);
-        description2StreamBuilder.withColumn("Description1Id", ColumnType.STRING);
+        description2StreamBuilder.withColumn("Description2Id", ColumnType.NVARCHAR);
+        description2StreamBuilder.withColumn("Value", ColumnType.NVARCHAR);
+        description2StreamBuilder.withColumn("Description1Id", ColumnType.NVARCHAR);
 
         final OutputDataStreamBuilder description3StreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_DESCRIPTION3);
-        description3StreamBuilder.withColumn("Description3Id", ColumnType.STRING);
-        description3StreamBuilder.withColumn("Value", ColumnType.STRING);
-        description3StreamBuilder.withColumn("Description2Id", ColumnType.STRING);
+        description3StreamBuilder.withColumn("Description3Id", ColumnType.NVARCHAR);
+        description3StreamBuilder.withColumn("Value", ColumnType.NVARCHAR);
+        description3StreamBuilder.withColumn("Description2Id", ColumnType.NVARCHAR);
 
         final OutputDataStreamBuilder dateTypeStreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_DATETYPELIST);
-        dateTypeStreamBuilder.withColumn("Id", ColumnType.STRING);
-        dateTypeStreamBuilder.withColumn("Name", ColumnType.STRING);
-        dateTypeStreamBuilder.withColumn("RecordType", ColumnType.STRING);
+        dateTypeStreamBuilder.withColumn("Id", ColumnType.NVARCHAR);
+        dateTypeStreamBuilder.withColumn("Name", ColumnType.NVARCHAR);
+        dateTypeStreamBuilder.withColumn("RecordType", ColumnType.NVARCHAR);
 
         final OutputDataStreamBuilder nameTypeStreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_NAMETYPELIST);
-        nameTypeStreamBuilder.withColumn("NameTypeID", ColumnType.STRING);
-        nameTypeStreamBuilder.withColumn("NameType", ColumnType.STRING);
-        nameTypeStreamBuilder.withColumn("RecordType", ColumnType.STRING);
+        nameTypeStreamBuilder.withColumn("NameTypeID", ColumnType.NVARCHAR);
+        nameTypeStreamBuilder.withColumn("NameType", ColumnType.NVARCHAR);
+        nameTypeStreamBuilder.withColumn("RecordType", ColumnType.NVARCHAR);
 
         final OutputDataStreamBuilder roleTypeStreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_ROLETYPELIST);
-        roleTypeStreamBuilder.withColumn("Id", ColumnType.STRING);
-        roleTypeStreamBuilder.withColumn("Name", ColumnType.STRING);
+        roleTypeStreamBuilder.withColumn("Id", ColumnType.NVARCHAR);
+        roleTypeStreamBuilder.withColumn("Name", ColumnType.NVARCHAR);
 
         final OutputDataStreamBuilder personStreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_PERSON);
-        personStreamBuilder.withColumn("ID", ColumnType.STRING);
-        personStreamBuilder.withColumn("Action", ColumnType.STRING);
-        personStreamBuilder.withColumn("Date", ColumnType.STRING);
-        personStreamBuilder.withColumn("Gender", ColumnType.STRING);
-        personStreamBuilder.withColumn("ActiveStatus", ColumnType.STRING);
-        personStreamBuilder.withColumn("Deceased", ColumnType.STRING);
-        personStreamBuilder.withColumn("ProfileNotes", ColumnType.STRING);
+        personStreamBuilder.withColumn("ID", ColumnType.NVARCHAR);
+        personStreamBuilder.withColumn("Action", ColumnType.NVARCHAR);
+        personStreamBuilder.withColumn("Date", ColumnType.NVARCHAR);
+        personStreamBuilder.withColumn("Gender", ColumnType.NVARCHAR);
+        personStreamBuilder.withColumn("ActiveStatus", ColumnType.NVARCHAR);
+        personStreamBuilder.withColumn("Deceased", ColumnType.NVARCHAR);
+        personStreamBuilder.withColumn("ProfileNotes", ColumnType.NVARCHAR);
 
         final OutputDataStreamBuilder personNameStreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_PERSONNAME);
-        personNameStreamBuilder.withColumn("ID", ColumnType.STRING);
-        personNameStreamBuilder.withColumn("PersonID", ColumnType.STRING);
-        personNameStreamBuilder.withColumn("NameType", ColumnType.STRING);
-        personNameStreamBuilder.withColumn("FirstName", ColumnType.STRING);
-        personNameStreamBuilder.withColumn("MiddleName", ColumnType.STRING);
-        personNameStreamBuilder.withColumn("SurName", ColumnType.STRING);
-        personNameStreamBuilder.withColumn("MaidenName", ColumnType.STRING);
-        personNameStreamBuilder.withColumn("Suffix", ColumnType.STRING);
-        personNameStreamBuilder.withColumn("TitleHonorific", ColumnType.STRING);
-        personNameStreamBuilder.withColumn("SingleStringName", ColumnType.STRING);
-        personNameStreamBuilder.withColumn("OriginalScriptName", ColumnType.STRING);
+        personNameStreamBuilder.withColumn("ID", ColumnType.NVARCHAR);
+        personNameStreamBuilder.withColumn("PersonID", ColumnType.NVARCHAR);
+        personNameStreamBuilder.withColumn("NameType", ColumnType.NVARCHAR);
+        personNameStreamBuilder.withColumn("FirstName", ColumnType.NVARCHAR);
+        personNameStreamBuilder.withColumn("MiddleName", ColumnType.NVARCHAR);
+        personNameStreamBuilder.withColumn("SurName", ColumnType.NVARCHAR);
+        personNameStreamBuilder.withColumn("MaidenName", ColumnType.NVARCHAR);
+        personNameStreamBuilder.withColumn("Suffix", ColumnType.NVARCHAR);
+        personNameStreamBuilder.withColumn("TitleHonorific", ColumnType.NVARCHAR);
+        personNameStreamBuilder.withColumn("SingleStringName", ColumnType.NVARCHAR);
+        personNameStreamBuilder.withColumn("OriginalScriptName", ColumnType.NVARCHAR);
 
         final OutputDataStreamBuilder personDescStreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_PERSONDESC);
-        personDescStreamBuilder.withColumn("ID", ColumnType.STRING);
-        personDescStreamBuilder.withColumn("PersonID", ColumnType.STRING);
-        personDescStreamBuilder.withColumn("Description1", ColumnType.STRING);
-        personDescStreamBuilder.withColumn("Description2", ColumnType.STRING);
-        personDescStreamBuilder.withColumn("Description3", ColumnType.STRING);
+        personDescStreamBuilder.withColumn("ID", ColumnType.NVARCHAR);
+        personDescStreamBuilder.withColumn("PersonID", ColumnType.NVARCHAR);
+        personDescStreamBuilder.withColumn("Description1", ColumnType.NVARCHAR);
+        personDescStreamBuilder.withColumn("Description2", ColumnType.NVARCHAR);
+        personDescStreamBuilder.withColumn("Description3", ColumnType.NVARCHAR);
 
         final OutputDataStreamBuilder personRoleStreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_PERSONROLE);
-        personRoleStreamBuilder.withColumn("ID", ColumnType.STRING);
-        personRoleStreamBuilder.withColumn("PersonID", ColumnType.STRING);
-        personRoleStreamBuilder.withColumn("RoleType", ColumnType.STRING);
-        personRoleStreamBuilder.withColumn("OccTitle", ColumnType.STRING);
-        personRoleStreamBuilder.withColumn("OccCat", ColumnType.STRING);
-        personRoleStreamBuilder.withColumn("SinceDate", ColumnType.STRING);
-        personRoleStreamBuilder.withColumn("ToDate", ColumnType.STRING);
+        personRoleStreamBuilder.withColumn("ID", ColumnType.NVARCHAR);
+        personRoleStreamBuilder.withColumn("PersonID", ColumnType.NVARCHAR);
+        personRoleStreamBuilder.withColumn("RoleType", ColumnType.NVARCHAR);
+        personRoleStreamBuilder.withColumn("OccTitle", ColumnType.NVARCHAR);
+        personRoleStreamBuilder.withColumn("OccCat", ColumnType.NVARCHAR);
+        personRoleStreamBuilder.withColumn("SinceDate", ColumnType.NVARCHAR);
+        personRoleStreamBuilder.withColumn("ToDate", ColumnType.NVARCHAR);
 
         final OutputDataStreamBuilder personDateStreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_PERSONDATE);
-        personDateStreamBuilder.withColumn("ID", ColumnType.STRING);
-        personDateStreamBuilder.withColumn("PersonID", ColumnType.STRING);
-        personDateStreamBuilder.withColumn("DateType", ColumnType.STRING);
-        personDateStreamBuilder.withColumn("Date", ColumnType.STRING);
+        personDateStreamBuilder.withColumn("ID", ColumnType.NVARCHAR);
+        personDateStreamBuilder.withColumn("PersonID", ColumnType.NVARCHAR);
+        personDateStreamBuilder.withColumn("DateType", ColumnType.NVARCHAR);
+        personDateStreamBuilder.withColumn("Date", ColumnType.NVARCHAR);
 
         final OutputDataStreamBuilder personPlaceStreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_PERSONPLACE);
-        personPlaceStreamBuilder.withColumn("ID", ColumnType.STRING);
-        personPlaceStreamBuilder.withColumn("PersonID", ColumnType.STRING);
-        personPlaceStreamBuilder.withColumn("BirthPlace", ColumnType.STRING);
+        personPlaceStreamBuilder.withColumn("ID", ColumnType.NVARCHAR);
+        personPlaceStreamBuilder.withColumn("PersonID", ColumnType.NVARCHAR);
+        personPlaceStreamBuilder.withColumn("BirthPlace", ColumnType.NVARCHAR);
 
         final OutputDataStreamBuilder personSanctionStreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_PERSONSANCTION);
-        personSanctionStreamBuilder.withColumn("ID", ColumnType.STRING);
-        personSanctionStreamBuilder.withColumn("PersonID", ColumnType.STRING);
-        personSanctionStreamBuilder.withColumn("Reference", ColumnType.STRING);
-        personSanctionStreamBuilder.withColumn("SinceDate", ColumnType.STRING);
-        personSanctionStreamBuilder.withColumn("ToDate", ColumnType.STRING);
+        personSanctionStreamBuilder.withColumn("ID", ColumnType.NVARCHAR);
+        personSanctionStreamBuilder.withColumn("PersonID", ColumnType.NVARCHAR);
+        personSanctionStreamBuilder.withColumn("Reference", ColumnType.NVARCHAR);
+        personSanctionStreamBuilder.withColumn("SinceDate", ColumnType.NVARCHAR);
+        personSanctionStreamBuilder.withColumn("ToDate", ColumnType.NVARCHAR);
 
         final OutputDataStreamBuilder personAddressStreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_PERSONADDRESS);
-        personAddressStreamBuilder.withColumn("ID", ColumnType.STRING);
-        personAddressStreamBuilder.withColumn("PersonID", ColumnType.STRING);
-        personAddressStreamBuilder.withColumn("AddressLine", ColumnType.STRING);
-        personAddressStreamBuilder.withColumn("City", ColumnType.STRING);
-        personAddressStreamBuilder.withColumn("Country", ColumnType.STRING);
-        personAddressStreamBuilder.withColumn("URL", ColumnType.STRING);
+        personAddressStreamBuilder.withColumn("ID", ColumnType.NVARCHAR);
+        personAddressStreamBuilder.withColumn("PersonID", ColumnType.NVARCHAR);
+        personAddressStreamBuilder.withColumn("AddressLine", ColumnType.NVARCHAR);
+        personAddressStreamBuilder.withColumn("City", ColumnType.NVARCHAR);
+        personAddressStreamBuilder.withColumn("Country", ColumnType.NVARCHAR);
+        personAddressStreamBuilder.withColumn("URL", ColumnType.NVARCHAR);
 
         final OutputDataStreamBuilder personCountryStreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_PERSONCOUNTRY);
-        personCountryStreamBuilder.withColumn("ID", ColumnType.STRING);
-        personCountryStreamBuilder.withColumn("PersonID", ColumnType.STRING);
-        personCountryStreamBuilder.withColumn("CountryType", ColumnType.STRING);
-        personCountryStreamBuilder.withColumn("Country", ColumnType.STRING);
+        personCountryStreamBuilder.withColumn("ID", ColumnType.NVARCHAR);
+        personCountryStreamBuilder.withColumn("PersonID", ColumnType.NVARCHAR);
+        personCountryStreamBuilder.withColumn("CountryType", ColumnType.NVARCHAR);
+        personCountryStreamBuilder.withColumn("Country", ColumnType.NVARCHAR);
 
         final OutputDataStreamBuilder personIdStreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_PERSONID);
-        personIdStreamBuilder.withColumn("ID", ColumnType.STRING);
-        personIdStreamBuilder.withColumn("PersonID", ColumnType.STRING);
-        personIdStreamBuilder.withColumn("IDType", ColumnType.STRING);
-        personIdStreamBuilder.withColumn("IDValue", ColumnType.STRING);
-        personIdStreamBuilder.withColumn("IDNotes", ColumnType.STRING);
+        personIdStreamBuilder.withColumn("ID", ColumnType.NVARCHAR);
+        personIdStreamBuilder.withColumn("PersonID", ColumnType.NVARCHAR);
+        personIdStreamBuilder.withColumn("IDType", ColumnType.NVARCHAR);
+        personIdStreamBuilder.withColumn("IDValue", ColumnType.NVARCHAR);
+        personIdStreamBuilder.withColumn("IDNotes", ColumnType.NVARCHAR);
 
         final OutputDataStreamBuilder personSourceStreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_PERSONSOURCEDESCRIPTION);
-        personSourceStreamBuilder.withColumn("ID", ColumnType.STRING);
-        personSourceStreamBuilder.withColumn("PersonID", ColumnType.STRING);
-        personSourceStreamBuilder.withColumn("Source", ColumnType.STRING);
+        personSourceStreamBuilder.withColumn("ID", ColumnType.NVARCHAR);
+        personSourceStreamBuilder.withColumn("PersonID", ColumnType.NVARCHAR);
+        personSourceStreamBuilder.withColumn("Source", ColumnType.NVARCHAR);
 
         final OutputDataStreamBuilder personImageStreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_PERSONIMAGES);
-        personImageStreamBuilder.withColumn("ID", ColumnType.STRING);
-        personImageStreamBuilder.withColumn("PersonID", ColumnType.STRING);
-        personImageStreamBuilder.withColumn("URL", ColumnType.STRING);
+        personImageStreamBuilder.withColumn("ID", ColumnType.NVARCHAR);
+        personImageStreamBuilder.withColumn("PersonID", ColumnType.NVARCHAR);
+        personImageStreamBuilder.withColumn("URL", ColumnType.NVARCHAR);
 
         final OutputDataStreamBuilder entityStreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_ENTITY);
-        entityStreamBuilder.withColumn("EntityId", ColumnType.STRING);
-        entityStreamBuilder.withColumn("Action", ColumnType.STRING);
-        entityStreamBuilder.withColumn("ActiveStatus", ColumnType.STRING);
-        entityStreamBuilder.withColumn("ProfileNotes", ColumnType.STRING);
+        entityStreamBuilder.withColumn("EntityId", ColumnType.NVARCHAR);
+        entityStreamBuilder.withColumn("Action", ColumnType.NVARCHAR);
+        entityStreamBuilder.withColumn("ActiveStatus", ColumnType.NVARCHAR);
+        entityStreamBuilder.withColumn("ProfileNotes", ColumnType.NVARCHAR);
 
         final OutputDataStreamBuilder entityNameStreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_ENTITYNAME);
-        entityNameStreamBuilder.withColumn("ID", ColumnType.STRING);
-        entityNameStreamBuilder.withColumn("EntityID", ColumnType.STRING);
-        entityNameStreamBuilder.withColumn("EntityName", ColumnType.STRING);
+        entityNameStreamBuilder.withColumn("ID", ColumnType.NVARCHAR);
+        entityNameStreamBuilder.withColumn("EntityID", ColumnType.NVARCHAR);
+        entityNameStreamBuilder.withColumn("EntityName", ColumnType.NVARCHAR);
 
         final OutputDataStreamBuilder entityDescStreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_ENTITYDESC);
-        entityDescStreamBuilder.withColumn("ID", ColumnType.STRING);
-        entityDescStreamBuilder.withColumn("EntityID", ColumnType.STRING);
-        entityDescStreamBuilder.withColumn("Description1", ColumnType.STRING);
-        entityDescStreamBuilder.withColumn("Description2", ColumnType.STRING);
-        entityDescStreamBuilder.withColumn("Description3", ColumnType.STRING);
+        entityDescStreamBuilder.withColumn("ID", ColumnType.NVARCHAR);
+        entityDescStreamBuilder.withColumn("EntityID", ColumnType.NVARCHAR);
+        entityDescStreamBuilder.withColumn("Description1", ColumnType.NVARCHAR);
+        entityDescStreamBuilder.withColumn("Description2", ColumnType.NVARCHAR);
+        entityDescStreamBuilder.withColumn("Description3", ColumnType.NVARCHAR);
 
         final OutputDataStreamBuilder entityDateStreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_ENTITYDATE);
-        entityDateStreamBuilder.withColumn("ID", ColumnType.STRING);
-        entityDateStreamBuilder.withColumn("EntityID", ColumnType.STRING);
-        entityDateStreamBuilder.withColumn("DateType", ColumnType.STRING);
-        entityDateStreamBuilder.withColumn("Date", ColumnType.STRING);
+        entityDateStreamBuilder.withColumn("ID", ColumnType.NVARCHAR);
+        entityDateStreamBuilder.withColumn("EntityID", ColumnType.NVARCHAR);
+        entityDateStreamBuilder.withColumn("DateType", ColumnType.NVARCHAR);
+        entityDateStreamBuilder.withColumn("Date", ColumnType.NVARCHAR);
 
         final OutputDataStreamBuilder entitySanctionStreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_ENTITYSANCTION);
-        entitySanctionStreamBuilder.withColumn("ID", ColumnType.STRING);
-        entitySanctionStreamBuilder.withColumn("EntityID", ColumnType.STRING);
-        entitySanctionStreamBuilder.withColumn("Reference", ColumnType.STRING);
-        entitySanctionStreamBuilder.withColumn("SinceDate", ColumnType.STRING);
-        entitySanctionStreamBuilder.withColumn("ToDate", ColumnType.STRING);
+        entitySanctionStreamBuilder.withColumn("ID", ColumnType.NVARCHAR);
+        entitySanctionStreamBuilder.withColumn("EntityID", ColumnType.NVARCHAR);
+        entitySanctionStreamBuilder.withColumn("Reference", ColumnType.NVARCHAR);
+        entitySanctionStreamBuilder.withColumn("SinceDate", ColumnType.NVARCHAR);
+        entitySanctionStreamBuilder.withColumn("ToDate", ColumnType.NVARCHAR);
 
         final OutputDataStreamBuilder entityAddressStreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_ENTITYADDRESS);
-        entityAddressStreamBuilder.withColumn("ID", ColumnType.STRING);
-        entityAddressStreamBuilder.withColumn("EntityID", ColumnType.STRING);
-        entityAddressStreamBuilder.withColumn("AddressLine", ColumnType.STRING);
-        entityAddressStreamBuilder.withColumn("City", ColumnType.STRING);
-        entityAddressStreamBuilder.withColumn("Country", ColumnType.STRING);
-        entityAddressStreamBuilder.withColumn("URL", ColumnType.STRING);
+        entityAddressStreamBuilder.withColumn("ID", ColumnType.NVARCHAR);
+        entityAddressStreamBuilder.withColumn("EntityID", ColumnType.NVARCHAR);
+        entityAddressStreamBuilder.withColumn("AddressLine", ColumnType.NVARCHAR);
+        entityAddressStreamBuilder.withColumn("City", ColumnType.NVARCHAR);
+        entityAddressStreamBuilder.withColumn("Country", ColumnType.NVARCHAR);
+        entityAddressStreamBuilder.withColumn("URL", ColumnType.NVARCHAR);
 
         final OutputDataStreamBuilder entityCountryStreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_ENTITYCOUNTRY);
-        entityCountryStreamBuilder.withColumn("ID", ColumnType.STRING);
-        entityCountryStreamBuilder.withColumn("EntityID", ColumnType.STRING);
-        entityCountryStreamBuilder.withColumn("CountryType", ColumnType.STRING);
-        entityCountryStreamBuilder.withColumn("Country", ColumnType.STRING);
+        entityCountryStreamBuilder.withColumn("ID", ColumnType.NVARCHAR);
+        entityCountryStreamBuilder.withColumn("EntityID", ColumnType.NVARCHAR);
+        entityCountryStreamBuilder.withColumn("CountryType", ColumnType.NVARCHAR);
+        entityCountryStreamBuilder.withColumn("Country", ColumnType.NVARCHAR);
 
         final OutputDataStreamBuilder entityIdStreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_ENTITYID);
-        entityIdStreamBuilder.withColumn("ID", ColumnType.STRING);
-        entityIdStreamBuilder.withColumn("EntityID", ColumnType.STRING);
-        entityIdStreamBuilder.withColumn("IDType", ColumnType.STRING);
-        entityIdStreamBuilder.withColumn("IDValue", ColumnType.STRING);
-        entityIdStreamBuilder.withColumn("IDNotes", ColumnType.STRING);
+        entityIdStreamBuilder.withColumn("ID", ColumnType.NVARCHAR);
+        entityIdStreamBuilder.withColumn("EntityID", ColumnType.NVARCHAR);
+        entityIdStreamBuilder.withColumn("IDType", ColumnType.NVARCHAR);
+        entityIdStreamBuilder.withColumn("IDValue", ColumnType.NVARCHAR);
+        entityIdStreamBuilder.withColumn("IDNotes", ColumnType.NVARCHAR);
 
         final OutputDataStreamBuilder entitySourceStreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_ENTITYSOURCEDESCRIPTION);
-        entitySourceStreamBuilder.withColumn("ID", ColumnType.STRING);
-        entitySourceStreamBuilder.withColumn("EntityID", ColumnType.STRING);
-        entitySourceStreamBuilder.withColumn("Source", ColumnType.STRING);
+        entitySourceStreamBuilder.withColumn("ID", ColumnType.NVARCHAR);
+        entitySourceStreamBuilder.withColumn("EntityID", ColumnType.NVARCHAR);
+        entitySourceStreamBuilder.withColumn("Source", ColumnType.NVARCHAR);
 
         return new OutputDataStream[]{
                 occupationStreamBuilder.toOutputDataStream(), countryStreamBuilder.toOutputDataStream(),

@@ -6,28 +6,47 @@ package org.datacleaner.components.dowjones.xml;
 public class constructors {
     public static String constructDate(String Year, String Month, String Day) {
         String date = "";
-        String day = "00";
-        String month = "00";
-        String year = "0000";
-
+//        String day = "00";
+        String month = "";
+//        String year = "0000";
         if (Month == null) {
-            month = "   ";
-        } else {
-            month = Month;
-        }
-        if (Year == null) {
-            year = "0000";
-        } else {
-            year = Year;
-        }
-        if (Day == null) {
-            day = "00";
-        } else {
-            day = Day;
+            month = null;
+        } else if (Month.equals("Jan")) {
+            month = "01";
+        } else if (Month.equals("Feb")) {
+            month = "02";
+        } else if (Month.equals("Mar")) {
+            month = "03";
+        } else if (Month.equals("Apr")) {
+            month = "04";
+        } else if (Month.equals("May")) {
+            month = "05";
+        } else if (Month.equals("Jun")) {
+            month = "06";
+        } else if (Month.equals("Jul")) {
+            month = "07";
+        } else if (Month.equals("Aug")) {
+            month = "08";
+        } else if (Month.equals("Sep")) {
+            month = "09";
+        } else if (Month.equals("Okt")) {
+            month = "10";
+        } else if (Month.equals("Nov")) {
+            month = "11";
+        } else if (Month.equals("Dec")) {
+            month = "12";
         }
 
-        date = year + "-" + month + "-" + day;
 
+        if (Month != null && Day != null && Year != null) {
+            date = Year + month + Day;
+        } else if (Month != null && Day == null && Year != null) {
+            date = Year + month;
+        } else if (Month == null && Day == null && Year != null) {
+            date = Year;
+        } else {
+            date = null;
+        }
         return date;
     }
 }
