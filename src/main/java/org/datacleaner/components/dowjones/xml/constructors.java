@@ -29,7 +29,7 @@ public class constructors {
             month = "08";
         } else if (Month.equals("Sep")) {
             month = "09";
-        } else if (Month.equals("Okt")) {
+        } else if (Month.equals("Oct")) {
             month = "10";
         } else if (Month.equals("Nov")) {
             month = "11";
