@@ -61,7 +61,9 @@ public class entityReader {
             _entityRowCollector.putValues(entityObj);
 
             if (entity.getNameDetails() != null) {
+
                 List<Name> names = entity.getNameDetails().getName();
+
                 if (names != null) {
                     for (int e = 0; e < names.size(); e++) {
                         String nameType = names.get(e).getNameType();
@@ -72,7 +74,7 @@ public class entityReader {
                             for (int en = 0; en < entityNames.size(); en++) {
                                 String id = e + "-" + n;
                                 String entityName = entityNames.get(en).toString();
-                                entityNameObj = new Object[]{id, entityId, entityName};
+                                entityNameObj = new Object[]{id, entityId, nameType, entityName};
                                 _entityNameRowCollector.putValues(entityNameObj);
                             }
                         }

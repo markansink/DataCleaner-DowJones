@@ -14,8 +14,10 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.transform.stream.StreamSource;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 
 import static org.datacleaner.components.dowjones.outputDataStreams.*;
@@ -100,11 +102,14 @@ public class parseDowJones implements Transformer, HasOutputDataStreams {
         String elementNameNew = "";
         String elementName = "";
         XMLInputFactory xif = XMLInputFactory.newFactory();
+
         StreamSource xml = new StreamSource(fileURL);
 
         try {
-            XMLStreamReader xsr = xif
-                    .createXMLStreamReader(new FileReader(fileURL));
+            XMLStreamReader xsr = xif.createXMLStreamReader(
+                    new InputStreamReader(
+                            new FileInputStream(fileURL),
+                            Charset.forName("UTF8")));
 
             // start with the first element:
             xsr.nextTag();
@@ -349,6 +354,7 @@ public class parseDowJones implements Transformer, HasOutputDataStreams {
         final OutputDataStreamBuilder entityNameStreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_ENTITYNAME);
         entityNameStreamBuilder.withColumn("ID", ColumnType.NVARCHAR);
         entityNameStreamBuilder.withColumn("EntityID", ColumnType.NVARCHAR);
+        entityNameStreamBuilder.withColumn("NameType", ColumnType.NVARCHAR);
         entityNameStreamBuilder.withColumn("EntityName", ColumnType.NVARCHAR);
 
         final OutputDataStreamBuilder entityDescStreamBuilder = OutputDataStreams.pushDataStream(OUTPUT_STREAM_ENTITYDESC);
